@@ -1,11 +1,11 @@
 package com.github.ls.common.order;
 
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -17,139 +17,138 @@ public class ClUserInfo implements Serializable {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
-    @NotBlank
     @Column(name = "load_order_no", length = 50, unique = true)
-    @JSONField(name = "load_order_no")
+    @JsonProperty(value = "load_order_no")
     private String loadOrderNo;
 
-    @NotBlank
     @Column(name = "biz_order_no", length = 50, unique = true)
-    @JSONField(name = "biz_order_no")
+    @JsonProperty(value = "biz_order_no")
     private String bizOrderNo;
 
-    @JSONField(name = "user_name")
+    @JsonProperty(value = "user_name")
     @Column(name = "user_name", length = 50)
     private String userName;
 
-    @JSONField(name = "gender")
+    @JsonProperty(value = "gender")
     @Column(name = "gender", length = 50)
     private String gender;
 
-    @JSONField(name = "idcard_address")
+    @JsonProperty(value = "idcard_address")
     @Column(name = "idcard_address", length = 50)
     private String idcardAddress;
 
-    @JSONField(name = "idcard")
+    @JsonProperty(value = "idcard")
     @Column(name = "idcard", length = 50)
     private String idcard;
 
-    @JSONField(name = "phone_no")
+    @JsonProperty(value = "phone_no")
     @Column(name = "phone_no", length = 50)
     private String phoneNo;
 
-    @JSONField(name = "identity_type")
+    @JsonProperty(value = "identity_type")
     @Column(name = "identity_type", length = 50)
     private String identityType;
 
-    @JSONField(name = "idcard_photo_path")
+    @JsonProperty(value = "idcard_photo_path")
     @Column(name = "idcard_photo_path", length = 50)
     private String idcardPhotoPath;
 
-    @JSONField(name = "health_status")
+    @JsonProperty(value = "health_status")
     @Column(name = "health_status", length = 50)
     private String healthStatus;
 
-    @JSONField(name = "degree")
+    @JsonProperty(value = "degree")
     @Column(name = "degree", length = 50)
     private String degree;
 
-    @JSONField(name = "colleges")
+    @JsonProperty(value = "colleges")
     @Column(name = "colleges", length = 50)
     private String colleges;
 
-    @JSONField(name = "major")
+    @JsonProperty(value = "major")
     @Column(name = "major", length = 50)
     private String major;
 
-    @JSONField(name = "residential_address")
+    @JsonProperty(value = "residential_address")
     @Column(name = "residential_address", length = 50)
     private String residentialAddress;
 
-    @JSONField(name = "marital_status")
+    @JsonProperty(value = "marital_status")
     @Column(name = "marital_status", length = 50)
     private String maritalStatus;
 
-    @JSONField(name = "company_name")
+    @JsonProperty(value = "company_name")
     @Column(name = "company_name", length = 50)
     private String companyName;
 
-    @JSONField(name = "branch_name")
+    @JsonProperty(value = "branch_name")
     @Column(name = "branch_name", length = 50)
     private String branchName;
 
-    @JSONField(name = "company_phone_no")
+    @JsonProperty(value = "company_phone_no")
     @Column(name = "company_phone_no", length = 50)
     private String companyPhoneNo;
 
-    @JSONField(name = "company_address")
+    @JsonProperty(value = "company_address")
     @Column(name = "company_address", length = 50)
     private String companyAddress;
 
-    @JSONField(name = "bank_account")
+    @JsonProperty(value = "bank_account")
     @Column(name = "bank_account", length = 50)
     private String bankAccount;
 
-    @JSONField(name = "bank_card_type")
+    @JsonProperty(value = "bank_card_type")
     @Column(name = "bank_card_type", length = 50)
     private String bankCardType;
 
-    @JSONField(name = "reserve_phone_no")
+    @JsonProperty(value = "reserve_phone_no")
     @Column(name = "reserve_phone_no", length = 50)
     private String reservePhoneNo;
 
-    @JSONField(name = "bank_name")
+    @JsonProperty(value = "bank_name")
     @Column(name = "bank_name", length = 50)
     private String bankName;
 
-    @JSONField(name = "personal_income")
+    @JsonProperty(value = "personal_income")
     @Column(name = "personal_income", length = 50)
     private BigDecimal personalIncome;
 
-    @JSONField(name = "monthly_expenditure")
+    @JsonProperty(value = "monthly_expenditure")
     @Column(name = "monthly_expenditure", length = 50)
     private BigDecimal monthlyExpenditure;
 
-    @JSONField(name = "qq")
+    @JsonProperty(value = "qq")
     @Column(name = "qq", length = 50)
     private String qq;
 
-    @JSONField(name = "wechat")
+    @JsonProperty(value = "wechat")
     @Column(name = "wechat", length = 50)
     private String wechat;
 
-    @JSONField(name = "bank_province")
+    @JsonProperty(value = "bank_province")
     @Column(name = "bank_province", length = 50)
     private String bankProvince;
 
-    @JSONField(name = "bank_city")
+    @JsonProperty(value = "bank_city")
     @Column(name = "bank_city", length = 50)
     private String bankCity;
 
-    @JSONField(name = "bank_sub_branch_name")
+    @JsonProperty(value = "bank_sub_branch_name")
     @Column(name = "bank_sub_branch_name", length = 50)
     private String bankSubBranchName;
 
-    @JSONField(name = "bank_code")
+    @JsonProperty(value = "bank_code")
     @Column(name = "bank_code", length = 50)
     private String bankCode;
 
-    @JSONField(name = "customer_professional_info")
+    @JsonProperty(value = "customer_professional_info")
     @Column(name = "customer_professional_info", length = 50)
     private String customerProfessionalInfo;
 
-    @JSONField(name = "certificate_expiry_date",format = "yyyy-MM-dd")
+    @JsonFormat(timezone = "yyyy-MM-dd")
+    @JsonProperty(value = "certificate_expiry_date")
     @Column(name = "certificate_expiry_date", length = 50)
     private Date certificateExpiryDate;
 

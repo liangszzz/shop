@@ -1,4 +1,4 @@
-package com.github.ls.orderservice.dao;
+package com.github.ls.order.dao;
 
 import com.github.ls.common.order.ClAttachmentInfo;
 import org.springframework.data.jpa.repository.JpaRepository;

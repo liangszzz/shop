@@ -1,11 +1,10 @@
 package com.github.ls.common.order;
 
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data
@@ -14,30 +13,25 @@ import java.io.Serializable;
 public class ClContactInfo implements Serializable {
   @Id
   @GeneratedValue
-  private long id;
+  private Long id;
 
-  @NotBlank
   @Column(name = "load_order_no", length = 50, unique = true)
-  @JSONField(name = "load_order_no")
+  @JsonProperty(value = "load_order_no")
   private String loadOrderNo;
 
-  @NotBlank
   @Column(name = "biz_order_no", length = 50, unique = true)
-  @JSONField(name = "biz_order_no")
+  @JsonProperty(value = "biz_order_no")
   private String bizOrderNo;
 
-  @NotBlank
-  @JSONField(name = "contact_name")
+  @JsonProperty(value = "contact_name")
   @Column(name = "contact_name", length = 50)
   private String contactName;
 
-  @NotBlank
-  @JSONField(name = "contact_phone")
+  @JsonProperty(value = "contact_phone")
   @Column(name = "contact_phone", length = 11)
   private String contactPhone;
 
-  @NotBlank
-  @JSONField(name = "contact_relationship")
+  @JsonProperty(value = "contact_relationship")
   @Column(name = "contact_relationship", length = 1)
   private String contactRelationship;
 

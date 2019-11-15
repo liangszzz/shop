@@ -1,4 +1,4 @@
-package com.github.ls.orderservice.config;
+package com.github.ls.order.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.github.ls.orderservice;
+package com.github.ls.order;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

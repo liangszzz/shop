@@ -1,6 +1,6 @@
 package com.github.ls.orderservice.controller;
 
-import com.github.ls.common.order.ClAttachmentInfo;
+import com.github.ls.orderservice.entity.SubmitOrderVO;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ public class Controller {
 
 
     @GetMapping("/submitOrder")
-    public String submitOrder(ClAttachmentInfo clAttachmentInfo) {
+    public String submitOrder(SubmitOrderVO SubmitOrderVOs) {
         return "hello ";
     }
 }

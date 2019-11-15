@@ -4,10 +4,7 @@ package com.github.ls.common.order;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -16,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
+@Entity
 @Table(name = "cl_base_info")
 public class ClBaseInfo implements Serializable {
 

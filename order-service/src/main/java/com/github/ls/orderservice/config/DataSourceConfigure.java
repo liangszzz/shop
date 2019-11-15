@@ -1,18 +1,15 @@
-package com.github.ls.ssoservice.config;
+package com.github.ls.orderservice.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
 
 @Configuration
-public class Config {
+public class DataSourceConfigure {
 
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
@@ -35,10 +32,5 @@ public class Config {
         druidDataSource.setUsername(username);
         druidDataSource.setPassword(password);
         return druidDataSource;
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

@@ -4,16 +4,14 @@ package com.github.ls.common.order;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@Entity
 @Table(name = "cl_attachment_info")
 public class ClAttachmentInfo implements Serializable {
 

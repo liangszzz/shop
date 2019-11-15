@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
-@EntityScan(basePackages = "com.github.ls.ssoservice")
+@EntityScan(basePackages = "com.github.ls.ssoservice.entity")
 @SpringBootApplication
 public class SsoServiceApplication {
 

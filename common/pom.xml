@@ -8,6 +8,7 @@
         <groupId>com.github.ls</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <packaging>jar</packaging>
     <artifactId>common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>common</name>
@@ -23,4 +24,5 @@
             <artifactId>validation-api</artifactId>
         </dependency>
     </dependencies>
+
 </project>

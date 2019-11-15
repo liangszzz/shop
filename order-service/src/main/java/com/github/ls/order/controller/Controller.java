@@ -1,6 +1,7 @@
 package com.github.ls.order.controller;
 
 import com.github.ls.common.entity.ResponseData;
+import com.github.ls.order.entity.ApproveVO;
 import com.github.ls.order.entity.SubmitOrderVO;
 import com.github.ls.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,5 +27,10 @@ public class Controller {
     @PostMapping(value = "/submitOrder")
     public ResponseData submitOrder(@Validated @RequestBody SubmitOrderVO vo) {
         return orderService.submitOrder(vo);
+    }
+
+    @PostMapping(value = "/approveOrder")
+    public ResponseData approveOrder(@Validated @RequestBody ApproveVO vo) {
+        return orderService.approveOrder(vo);
     }
 }

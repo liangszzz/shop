@@ -19,11 +19,11 @@ public class ClAttachmentInfo implements Serializable {
     private Long id;
 
     @JsonProperty(value = "load_order_no")
-    @Column(name = "load_order_no", length = 50, unique = true)
+    @Column(name = "load_order_no", length = 50)
     private String loadOrderNo;
 
     @JsonProperty(value = "biz_order_no")
-    @Column(name = "biz_order_no", length = 50, unique = true)
+    @Column(name = "biz_order_no", length = 50)
     private String bizOrderNo;
 
     @JsonProperty(value = "file_name")

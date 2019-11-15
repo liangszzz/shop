@@ -15,11 +15,11 @@ public class ClContactInfo implements Serializable {
   @GeneratedValue
   private Long id;
 
-  @Column(name = "load_order_no", length = 50, unique = true)
+  @Column(name = "load_order_no", length = 50)
   @JsonProperty(value = "load_order_no")
   private String loadOrderNo;
 
-  @Column(name = "biz_order_no", length = 50, unique = true)
+  @Column(name = "biz_order_no", length = 50)
   @JsonProperty(value = "biz_order_no")
   private String bizOrderNo;
 

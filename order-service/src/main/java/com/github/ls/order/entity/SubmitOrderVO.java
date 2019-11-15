@@ -1,9 +1,7 @@
 package com.github.ls.order.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.ls.common.order.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

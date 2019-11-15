@@ -1,6 +1,6 @@
 package com.github.ls.common.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,15 +8,23 @@ import java.io.Serializable;
 @Data
 public class ResponseData implements Serializable {
 
-    @JSONField(name = "app_id")
+    @JsonProperty(value = "app_id")
     private String appId;
 
-    @JSONField(name = "code")
+    @JsonProperty(value = "code")
     private ResponseCode code;
 
-    @JSONField(name = "msg")
+    @JsonProperty(value = "msg")
     private String msg;
 
-    @JSONField(name = "result")
+    @JsonProperty(value = "result")
     private ResponseResult result;
+
+    public ResponseData() {
+    }
+
+    public ResponseData(ResponseCode code) {
+        this.code = code;
+    }
+
 }

@@ -63,13 +63,13 @@ public class ClAttachmentInfo implements Serializable {
     @Null
     @JsonProperty(value = "upload_count")
     @Column(name = "upload_count")
-    private int uploadCount;
+    private Integer uploadCount;
 
 
     @Null
     @JsonProperty(value = "create_date")
     @Column(name = "create_date")
-    private Date createDate = new Date();
+    private Date createDate;
 
     @Null
     @JsonProperty(value = "has_update")

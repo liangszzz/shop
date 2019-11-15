@@ -16,11 +16,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "api/v1/order")
 public class Controller {
 
+    private final OrderService orderService;
+
     @Autowired
-    private OrderService orderService;
+    public Controller(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @PostMapping(value = "/submitOrder")
-    public ResponseData submitOrder(@RequestBody SubmitOrderVO vo) {
-        return orderService.submitOrder(null);
+    public ResponseData submitOrder(@Validated @RequestBody SubmitOrderVO vo) {
+        return orderService.submitOrder(vo);
     }
 }

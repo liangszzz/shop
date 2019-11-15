@@ -1,8 +1,8 @@
 package com.github.ls.ssoservice.config;
 
-import com.github.ls.sso.entity.SysMenu;
-import com.github.ls.sso.entity.SysUser;
-import com.github.ls.sso.service.SysService;
+import com.github.ls.ssoservice.entity.SysMenu;
+import com.github.ls.ssoservice.entity.SysUser;
+import com.github.ls.ssoservice.service.SysService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,8 +18,12 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    private final SysService sysService;
+
     @Autowired
-    private SysService sysService;
+    public UserDetailsServiceImpl(SysService sysService) {
+        this.sysService = sysService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -33,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         grantedAuthorities.add(grantedAuthority);
                     });
         }
-
+        assert user != null;
         return new User(username, user.getPassword(), grantedAuthorities);
     }
 }

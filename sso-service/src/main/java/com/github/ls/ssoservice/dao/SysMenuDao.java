@@ -1,6 +1,6 @@
 package com.github.ls.ssoservice.dao;
 
-import com.github.ls.sso.entity.SysMenu;
+import com.github.ls.ssoservice.entity.SysMenu;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

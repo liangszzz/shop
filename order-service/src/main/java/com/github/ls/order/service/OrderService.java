@@ -5,6 +5,7 @@ import com.github.ls.common.entity.ResponseData;
 import com.github.ls.common.exceptions.DataNotFoundException;
 import com.github.ls.common.order.*;
 import com.github.ls.order.dao.*;
+import com.github.ls.order.entity.AddAttachmentVO;
 import com.github.ls.order.entity.ApproveVO;
 import com.github.ls.order.entity.SubmitOrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,7 @@ public class OrderService {
         userInfo.setBizOrderNo(biz_order_no);
         clUserInfoDao.save(userInfo);
 
+        //TODO 调MQ
         return new ResponseData(ResponseCode.SUCCESS);
     }
 
@@ -92,7 +94,19 @@ public class OrderService {
         baseInfo.setAuditName(vo.getAudit_name());
         baseInfo.setOrderStatus(Integer.parseInt(vo.getOrder_status()));
         clBaseInfoDao.save(baseInfo);
-        //TODO 调用mq
+        //TODO 调用MQ
+        return new ResponseData(ResponseCode.SUCCESS);
+    }
+
+    @Transactional(rollbackOn = RuntimeException.class)
+    public ResponseData addAttachment(AddAttachmentVO vo) {
+        Optional<ClBaseInfo> optionalClBaseInfo = clBaseInfoDao.findByLoadOrderNo(vo.getOrder_no());
+        ClBaseInfo baseInfo = optionalClBaseInfo.orElseThrow(DataNotFoundException::new);
+        vo.getList().forEach(e -> {
+            e.setLoadOrderNo(baseInfo.getLoadOrderNo());
+            e.setBizOrderNo(baseInfo.getBizOrderNo());
+        });
+        clAttachmentInfoDao.saveAll(vo.getList());
         return new ResponseData(ResponseCode.SUCCESS);
     }
 }

@@ -1,6 +1,7 @@
 package com.github.ls.common.order;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -47,31 +48,27 @@ public class ClAttachmentInfo implements Serializable {
     @Column(name = "file_type", length = 1)
     private String fileType;
 
-
-    @Null
+    @JsonIgnore
     @JsonProperty(value = "is_image")
     @Column(name = "is_image", length = 3)
     private String isImage;
 
-
-    @Null
+    @JsonIgnore
     @JsonProperty(value = "fast_dfs_path")
     @Column(name = "fast_dfs_path", length = 50)
     private String fastDfsPath;
 
-
-    @Null
+    @JsonIgnore
     @JsonProperty(value = "upload_count")
     @Column(name = "upload_count")
     private Integer uploadCount;
 
-
-    @Null
+    @JsonIgnore
     @JsonProperty(value = "create_date")
     @Column(name = "create_date")
     private Date createDate;
 
-    @Null
+    @JsonIgnore
     @JsonProperty(value = "has_update")
     @Column(name = "has_update", length = 1)
     private String hasUpdate;

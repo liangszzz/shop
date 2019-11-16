@@ -2,6 +2,7 @@ package com.github.ls.common.order;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -30,14 +31,14 @@ public class ClBaseInfo implements Serializable {
     @JsonProperty(value = "biz_order_no")
     private String bizOrderNo;
 
-    @Null
+    @JsonIgnore
     @Column(name = "zlx_order_no", length = 50, unique = true)
     private String zlxOrderNo;
 
-    @Null
-    @Column(name = "orderStatus", length = 50)
+    @JsonIgnore
+    @Column(name = "orderStatus")
     @JsonProperty(value = "order_status")
-    private Integer orderStatus;
+    private Integer orderStatus = 19;
 
     @Column(name = "contract_no", length = 50)
     @JsonProperty(value = "contract_no")
@@ -52,7 +53,6 @@ public class ClBaseInfo implements Serializable {
     private String borrowUsage;
 
     @Column(name = "load_date")
-    @Null
     @JsonProperty(value = "load_date")
     private Date loadDate;
 
@@ -146,8 +146,8 @@ public class ClBaseInfo implements Serializable {
     @JsonProperty(value = "institution_city")
     private String institutionCity;
 
+    @JsonIgnore
     @Column(name = "transfer_amount")
-    @Null
     @JsonProperty(value = "transfer_amount")
     private BigDecimal transferAmount;
 

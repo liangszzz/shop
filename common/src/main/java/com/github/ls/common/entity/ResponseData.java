@@ -1,6 +1,7 @@
 package com.github.ls.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ public class ResponseData implements Serializable {
     @JsonProperty(value = "app_id")
     private String appId;
 
+    @JsonSerialize
     @JsonProperty(value = "code")
     private ResponseCode code;
 
@@ -27,4 +29,8 @@ public class ResponseData implements Serializable {
         this.code = code;
     }
 
+    public ResponseData(ResponseCode code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -22,6 +23,7 @@ public class Request implements Serializable {
     @JSONField(name = "sign")
     private String sign;
 
+    @PastOrPresent
     @Size(min = 10, max = 10)
     @JSONField(name = "timestamp")
     private String timestamp;

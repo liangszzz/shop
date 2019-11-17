@@ -8,9 +8,11 @@ import com.github.ls.order.dao.*;
 import com.github.ls.order.entity.AddAttachmentVO;
 import com.github.ls.order.entity.ApproveVO;
 import com.github.ls.order.entity.SubmitOrderVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -19,26 +21,34 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class OrderService {
 
-    @Autowired
-    private ClAttachmentInfoDao clAttachmentInfoDao;
+    private final ClAttachmentInfoDao clAttachmentInfoDao;
+
+    private final ClBaseInfoDao clBaseInfoDao;
+
+    private final ClCarInfoDao clCarInfoDao;
+
+    private final ClContractInfoDao clContractInfoDao;
+
+    private final ClRiskControlInfoDao clRiskControlInfoDao;
+
+    private final ClUserInfoDao clUserInfoDao;
+
+    private final OrderMqDao orderMqDao;
 
     @Autowired
-    private ClBaseInfoDao clBaseInfoDao;
-
-    @Autowired
-    private ClCarInfoDao clCarInfoDao;
-
-    @Autowired
-    private ClContractInfoDao clContractInfoDao;
-
-    @Autowired
-    private ClRiskControlInfoDao clRiskControlInfoDao;
-
-    @Autowired
-    private ClUserInfoDao clUserInfoDao;
+    public OrderService(ClAttachmentInfoDao clAttachmentInfoDao, ClBaseInfoDao clBaseInfoDao, ClCarInfoDao clCarInfoDao, ClContractInfoDao clContractInfoDao, ClRiskControlInfoDao clRiskControlInfoDao, ClUserInfoDao clUserInfoDao, OrderMqDao orderMqDao) {
+        this.clAttachmentInfoDao = clAttachmentInfoDao;
+        this.clBaseInfoDao = clBaseInfoDao;
+        this.clCarInfoDao = clCarInfoDao;
+        this.clContractInfoDao = clContractInfoDao;
+        this.clRiskControlInfoDao = clRiskControlInfoDao;
+        this.clUserInfoDao = clUserInfoDao;
+        this.orderMqDao = orderMqDao;
+    }
 
     @Transactional(rollbackOn = RuntimeException.class)
     public ResponseData submitOrder(SubmitOrderVO submitOrderVO) {
@@ -78,13 +88,13 @@ public class OrderService {
         userInfo.setBizOrderNo(biz_order_no);
         clUserInfoDao.save(userInfo);
 
-        //TODO 调MQ
+        orderMqDao.attachmentUploadMq(load_order_no);
+        orderMqDao.contractCreateMq(load_order_no);
         return new ResponseData(ResponseCode.SUCCESS);
     }
 
     @Transactional(rollbackOn = RuntimeException.class)
     public ResponseData approveOrder(ApproveVO vo) {
-
         Optional<ClBaseInfo> optionalClBaseInfo = clBaseInfoDao.findByLoadOrderNo(vo.getOrder_no());
         ClBaseInfo baseInfo = optionalClBaseInfo.orElseThrow(DataNotFoundException::new);
         if (baseInfo.getOrderStatus() == null || baseInfo.getOrderStatus() != 19) {
@@ -107,6 +117,8 @@ public class OrderService {
             e.setBizOrderNo(baseInfo.getBizOrderNo());
         });
         clAttachmentInfoDao.saveAll(vo.getList());
+        ResponseData data = orderMqDao.attachmentUploadMq(vo.getOrder_no());
+        log.info(data.toString());
         return new ResponseData(ResponseCode.SUCCESS);
     }
 }

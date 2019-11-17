@@ -21,12 +21,14 @@
         <maven.compiler.target>13</maven.compiler.target>
         <spring-cloud.version>Hoxton.RC2</spring-cloud.version>
         <spring-cloud-alibaba.version>2.1.0.RELEASE</spring-cloud-alibaba.version>
+        <project.version>0.0.1-SNAPSHOT</project.version>
     </properties>
 
     <modules>
         <module>order-service</module>
         <module>common</module>
         <module>sso-service</module>
+        <module>stream-service</module>
     </modules>
 
     <dependencies>
@@ -37,20 +39,7 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
             <version>${spring-cloud-alibaba.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-            <version>2.2.0.RC2</version>
-        </dependency>
-
         <!--配置-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -63,6 +52,11 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
             <version>${spring-cloud-alibaba.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
         <!--mysql连接-->

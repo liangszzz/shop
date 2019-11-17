@@ -10,7 +10,7 @@
     </parent>
     <packaging>jar</packaging>
     <artifactId>common</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${project.version}</version>
     <name>common</name>
 
     <dependencies>

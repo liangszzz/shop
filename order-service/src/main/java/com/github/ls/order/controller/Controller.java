@@ -1,7 +1,7 @@
 package com.github.ls.order.controller;
 
 import com.github.ls.common.entity.ResponseData;
-import com.github.ls.order.entity.AddAttachmentVO;
+import com.github.ls.common.order.mq.AddAttachmentVO;
 import com.github.ls.order.entity.ApproveVO;
 import com.github.ls.order.entity.SubmitOrderVO;
 import com.github.ls.order.service.OrderService;

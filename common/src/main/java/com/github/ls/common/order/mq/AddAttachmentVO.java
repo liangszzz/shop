@@ -1,4 +1,4 @@
-package com.github.ls.order.entity;
+package com.github.ls.common.order.mq;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.ls.common.order.ClAttachmentInfo;
@@ -12,6 +12,14 @@ import java.util.List;
 
 @Data
 public class AddAttachmentVO implements Serializable {
+
+    public AddAttachmentVO() {
+    }
+
+    public AddAttachmentVO(String order_no, List<ClAttachmentInfo> list) {
+        this.order_no = order_no;
+        this.list = list;
+    }
 
     @NotBlank
     @JsonProperty(value = "order_no")

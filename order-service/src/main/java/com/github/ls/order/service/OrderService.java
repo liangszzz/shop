@@ -5,14 +5,13 @@ import com.github.ls.common.entity.ResponseData;
 import com.github.ls.common.exceptions.DataNotFoundException;
 import com.github.ls.common.order.*;
 import com.github.ls.order.dao.*;
-import com.github.ls.order.entity.AddAttachmentVO;
+import com.github.ls.common.order.mq.AddAttachmentVO;
 import com.github.ls.order.entity.ApproveVO;
 import com.github.ls.order.entity.SubmitOrderVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -39,7 +38,6 @@ public class OrderService {
 
     private final OrderMqDao orderMqDao;
 
-    @Autowired
     public OrderService(ClAttachmentInfoDao clAttachmentInfoDao, ClBaseInfoDao clBaseInfoDao, ClCarInfoDao clCarInfoDao, ClContractInfoDao clContractInfoDao, ClRiskControlInfoDao clRiskControlInfoDao, ClUserInfoDao clUserInfoDao, OrderMqDao orderMqDao) {
         this.clAttachmentInfoDao = clAttachmentInfoDao;
         this.clBaseInfoDao = clBaseInfoDao;
@@ -88,7 +86,7 @@ public class OrderService {
         userInfo.setBizOrderNo(biz_order_no);
         clUserInfoDao.save(userInfo);
 
-        orderMqDao.attachmentUploadMq(load_order_no);
+        orderMqDao.attachmentUploadMq(new AddAttachmentVO(load_order_no,attachmentInfos));
         orderMqDao.contractCreateMq(load_order_no);
         return new ResponseData(ResponseCode.SUCCESS);
     }
@@ -117,7 +115,7 @@ public class OrderService {
             e.setBizOrderNo(baseInfo.getBizOrderNo());
         });
         clAttachmentInfoDao.saveAll(vo.getList());
-        ResponseData data = orderMqDao.attachmentUploadMq(vo.getOrder_no());
+        ResponseData data = orderMqDao.attachmentUploadMq(vo);
         log.info(data.toString());
         return new ResponseData(ResponseCode.SUCCESS);
     }

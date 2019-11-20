@@ -32,11 +32,11 @@ public class OrderMqService {
         log.info("接收:" + vo.toString());
 
         Message<AddAttachmentVO> message = MessageBuilder.withPayload(vo).setHeader("DELAY", 4).build();
-        boolean send = uploadAttachmentChannel.output().send(message,2000);
+        boolean send = uploadAttachmentChannel.output().send(message, 2000);
 
 //        SendResult sendResult = rocketMQTemplate.syncSend("upload-attachment-topic", MessageBuilder.withPayload(vo).build(), 2000, 4);
 //        log.info(sendResult.toString());
-        return new ResponseData(true ? ResponseCode.SUCCESS : ResponseCode.SERVER_EXCEPTION);
+        return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 
     @StreamListener(UploadAttachmentChannel.INPUT)

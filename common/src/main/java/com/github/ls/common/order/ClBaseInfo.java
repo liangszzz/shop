@@ -4,6 +4,7 @@ package com.github.ls.common.order;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
+@Builder
 @Entity
 @Table(name = "cl_base_info")
 public class ClBaseInfo implements Serializable {
@@ -38,7 +40,7 @@ public class ClBaseInfo implements Serializable {
     @JsonIgnore
     @Column(name = "orderStatus")
     @JsonProperty(value = "order_status")
-    private Integer orderStatus = 19;
+    private Integer orderStatus;
 
     @Column(name = "contract_no", length = 50)
     @JsonProperty(value = "contract_no")

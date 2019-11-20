@@ -4,12 +4,11 @@ import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.common.exceptions.DataNotFoundException;
 import com.github.ls.common.order.*;
-import com.github.ls.order.dao.*;
 import com.github.ls.common.order.mq.AddAttachmentVO;
+import com.github.ls.order.dao.*;
 import com.github.ls.order.entity.ApproveVO;
 import com.github.ls.order.entity.SubmitOrderVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -54,7 +53,7 @@ public class OrderService {
         ClBaseInfo clBaseInfo = submitOrderVO.getClBaseInfo();
         String biz_order_no = clBaseInfo.getBizOrderNo();
         clBaseInfo.setLoadOrderNo(load_order_no);
-
+        clBaseInfo.setOrderStatus(19);
         clBaseInfoDao.save(clBaseInfo);
 
         List<ClAttachmentInfo> attachmentInfos = submitOrderVO.getAttachmentInfos();
@@ -64,12 +63,12 @@ public class OrderService {
         });
         clAttachmentInfoDao.saveAll(attachmentInfos);
 
-        @Valid @NotNull ClCarInfo clCarInfo = submitOrderVO.getClCarInfo();
+        ClCarInfo clCarInfo = submitOrderVO.getClCarInfo();
         clCarInfo.setLoadOrderNo(load_order_no);
         clCarInfo.setBizOrderNo(biz_order_no);
         clCarInfoDao.save(clCarInfo);
 
-        @Valid @NotNull List<ClContactInfo> contactInfos = submitOrderVO.getContactInfos();
+        List<ClContactInfo> contactInfos = submitOrderVO.getContactInfos();
         contactInfos.forEach(e -> {
             e.setLoadOrderNo(load_order_no);
             e.setBizOrderNo(biz_order_no);
@@ -86,9 +85,9 @@ public class OrderService {
         userInfo.setBizOrderNo(biz_order_no);
         clUserInfoDao.save(userInfo);
 
-        orderMqDao.attachmentUploadMq(new AddAttachmentVO(load_order_no,attachmentInfos));
+        orderMqDao.attachmentUploadMq(AddAttachmentVO.builder().order_no(load_order_no).list(attachmentInfos).build());
         orderMqDao.contractCreateMq(load_order_no);
-        return new ResponseData(ResponseCode.SUCCESS);
+        return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 
     @Transactional(rollbackOn = RuntimeException.class)
@@ -96,14 +95,14 @@ public class OrderService {
         Optional<ClBaseInfo> optionalClBaseInfo = clBaseInfoDao.findByLoadOrderNo(vo.getOrder_no());
         ClBaseInfo baseInfo = optionalClBaseInfo.orElseThrow(DataNotFoundException::new);
         if (baseInfo.getOrderStatus() == null || baseInfo.getOrderStatus() != 19) {
-            return new ResponseData(ResponseCode.DATA_STATUS_ERROR, "订单非待审核状态!");
+            return ResponseData.builder().code(ResponseCode.DATA_STATUS_ERROR).msg("订单非待审核状态!").build();
         }
         baseInfo.setAuditDate(new Date());
         baseInfo.setAuditName(vo.getAudit_name());
         baseInfo.setOrderStatus(Integer.parseInt(vo.getOrder_status()));
         clBaseInfoDao.save(baseInfo);
         //TODO 调用MQ
-        return new ResponseData(ResponseCode.SUCCESS);
+        return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 
     @Transactional(rollbackOn = RuntimeException.class)
@@ -117,6 +116,6 @@ public class OrderService {
         clAttachmentInfoDao.saveAll(vo.getList());
         ResponseData data = orderMqDao.attachmentUploadMq(vo);
         log.info(data.toString());
-        return new ResponseData(ResponseCode.SUCCESS);
+        return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 }

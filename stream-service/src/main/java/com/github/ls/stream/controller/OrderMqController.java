@@ -28,6 +28,6 @@ public class OrderMqController {
     @PostMapping("/contractCreateMq{order_no}")
     public ResponseData contractCreateMq(@PathVariable String order_no) {
         log.info(order_no);
-        return new ResponseData(ResponseCode.SUCCESS);
+        return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 }

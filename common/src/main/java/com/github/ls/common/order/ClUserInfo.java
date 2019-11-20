@@ -3,6 +3,7 @@ package com.github.ls.common.order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
+@Builder
 @Entity
 @Table(name = "cl_user_info")
 public class ClUserInfo implements Serializable {

@@ -3,6 +3,7 @@ package com.github.ls.common.order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@Builder
 @Entity
 @Table(name = "cl_attachment_info")
 public class ClAttachmentInfo implements Serializable {

@@ -1,5 +1,8 @@
 package com.github.ls.common.exceptions;
 
+import lombok.Builder;
+
+@Builder
 public class BizException extends RuntimeException {
 
     private int biz_code;

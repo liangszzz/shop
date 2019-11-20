@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 public class OrderMqDaoFallBack implements OrderMqDao {
     @Override
     public ResponseData attachmentUploadMq(AddAttachmentVO vo) {
-        return new ResponseData(ResponseCode.SERVER_EXCEPTION);
+        return ResponseData.builder().code(ResponseCode.SERVER_EXCEPTION).build();
     }
 
     @Override
     public ResponseData contractCreateMq(String order_no) {
-        return new ResponseData(ResponseCode.SERVER_EXCEPTION);
+        return ResponseData.builder().code(ResponseCode.SERVER_EXCEPTION).build();
     }
 
 }

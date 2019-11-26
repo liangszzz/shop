@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @EnableBinding(OrderRollBackInput.class)
 public class OrderRollBackService {
 
-    @StreamListener(value = OrderRollBackInput.ORDER_INPUT)
+    @StreamListener(value = OrderRollBackInput.ORDER_INPUT,condition = "headers.rocketmq_TAGS eq 'TAG_A'")
     public void rollBackOrder(String order_no) {
-        log.info("rollback" + order_no);
+        log.info("rollback:" + order_no);
     }
 }

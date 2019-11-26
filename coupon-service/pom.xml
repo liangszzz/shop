@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.github.ls</groupId>
             <artifactId>common</artifactId>
-            <version>${project.version}</version>
+            <version>${common.version}</version>
         </dependency>
     </dependencies>
 

@@ -6,12 +6,8 @@
         <groupId>com.github.ls</groupId>
         <artifactId>carloan</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>sso-service</artifactId>
-    <version>${project.version}</version>
-    <name>sso-service</name>
-    <description>sso-service</description>
 
     <dependencies>
         <dependency>

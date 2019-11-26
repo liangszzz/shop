@@ -6,7 +6,6 @@ import com.github.ls.order.entity.vo.ApproveVO;
 import com.github.ls.order.entity.vo.SubmitOrderVO;
 import com.github.ls.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,6 @@ public class Controller {
 
     private final OrderService orderService;
 
-    @Autowired
     public Controller(OrderService orderService) {
         this.orderService = orderService;
     }

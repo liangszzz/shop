@@ -3,20 +3,17 @@ package com.github.ls.order.service;
 import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.common.exceptions.DataNotFoundException;
-import com.github.ls.common.mq.OrderRollBackOutput;
-import com.github.ls.order.entity.vo.AddAttachmentVO;
 import com.github.ls.order.dao.*;
+import com.github.ls.order.entity.base.*;
+import com.github.ls.order.entity.vo.AddAttachmentVO;
 import com.github.ls.order.entity.vo.ApproveVO;
 import com.github.ls.order.entity.vo.SubmitOrderVO;
-import com.github.ls.order.entity.base.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
-import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +22,6 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@EnableBinding(OrderRollBackOutput.class)
 public class OrderService {
 
     private final ClAttachmentInfoDao clAttachmentInfoDao;
@@ -42,13 +38,11 @@ public class OrderService {
 
     private final CouponDao couponDao;
 
-    private final OrderRollBackOutput orderRollBackOutput;
-
     private RocketMQTemplate rocketMQTemplate;
 
     public OrderService(ClAttachmentInfoDao clAttachmentInfoDao, ClBaseInfoDao clBaseInfoDao, ClCarInfoDao clCarInfoDao,
                         ClContractInfoDao clContractInfoDao, ClRiskControlInfoDao clRiskControlInfoDao,
-                        ClUserInfoDao clUserInfoDao, CouponDao couponDao, OrderRollBackOutput orderRollBackOutput, RocketMQTemplate rocketMQTemplate) {
+                        ClUserInfoDao clUserInfoDao, CouponDao couponDao, RocketMQTemplate rocketMQTemplate) {
         this.clAttachmentInfoDao = clAttachmentInfoDao;
         this.clBaseInfoDao = clBaseInfoDao;
         this.clCarInfoDao = clCarInfoDao;
@@ -56,7 +50,6 @@ public class OrderService {
         this.clRiskControlInfoDao = clRiskControlInfoDao;
         this.clUserInfoDao = clUserInfoDao;
         this.couponDao = couponDao;
-        this.orderRollBackOutput = orderRollBackOutput;
         this.rocketMQTemplate = rocketMQTemplate;
     }
 
@@ -108,10 +101,8 @@ public class OrderService {
     }
 
     public void rollBackOrder(String load_order_no) {
-        Message<String> message = MessageBuilder.withPayload("can't consumer").build();
-        rocketMQTemplate.syncSend("order-rollback:TAG_B", message,200,3);
-//        boolean send = orderRollBackOutput.output().send(message);
-//        log.info(send + "");
+        Message<String> message = MessageBuilder.withPayload(load_order_no).build();
+        rocketMQTemplate.syncSend("order-rollback:TAG_A", message, 200, 3);
     }
 
     @Transactional(rollbackOn = RuntimeException.class)

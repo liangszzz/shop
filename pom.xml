@@ -28,7 +28,8 @@
         <module>order-service</module>
         <module>common</module>
         <module>sso-service</module>
-        <module>stream-service</module>
+<!--        <module>stream-service</module>-->
+        <module>coupon-service</module>
     </modules>
 
     <dependencies>
@@ -71,6 +72,16 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>1.1.21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
         </dependency>
 
         <dependency>

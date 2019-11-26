@@ -1,17 +1,17 @@
-package com.github.ls.order.entity;
+package com.github.ls.order.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.ls.common.order.*;
-import lombok.Getter;
-import lombok.Setter;
+import com.github.ls.order.entity.base.*;
+import lombok.Builder;
+import lombok.Data;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@Builder
 public class SubmitOrderVO implements Serializable {
 
     @Valid

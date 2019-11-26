@@ -1,7 +1,7 @@
-package com.github.ls.common.order.mq;
+package com.github.ls.order.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.ls.common.order.ClAttachmentInfo;
+import com.github.ls.order.entity.base.ClAttachmentInfo;
 import lombok.Builder;
 import lombok.Data;
 

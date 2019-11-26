@@ -1,6 +1,7 @@
-package com.github.ls.order.entity;
+package com.github.ls.order.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Data
+@Builder
 public class ApproveVO implements Serializable {
 
     @NotBlank

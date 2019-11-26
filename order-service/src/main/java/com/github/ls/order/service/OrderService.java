@@ -2,18 +2,21 @@ package com.github.ls.order.service;
 
 import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
+import com.github.ls.common.exceptions.BizException;
 import com.github.ls.common.exceptions.DataNotFoundException;
-import com.github.ls.common.order.*;
-import com.github.ls.common.order.mq.AddAttachmentVO;
+import com.github.ls.common.mq.OrderRollBackOutput;
+import com.github.ls.order.entity.vo.AddAttachmentVO;
 import com.github.ls.order.dao.*;
-import com.github.ls.order.entity.ApproveVO;
-import com.github.ls.order.entity.SubmitOrderVO;
+import com.github.ls.order.entity.vo.ApproveVO;
+import com.github.ls.order.entity.vo.SubmitOrderVO;
+import com.github.ls.order.entity.base.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +24,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
+@EnableBinding(OrderRollBackOutput.class)
 public class OrderService {
 
     private final ClAttachmentInfoDao clAttachmentInfoDao;
@@ -35,59 +39,73 @@ public class OrderService {
 
     private final ClUserInfoDao clUserInfoDao;
 
-    private final OrderMqDao orderMqDao;
+    private final CouponDao couponDao;
 
-    public OrderService(ClAttachmentInfoDao clAttachmentInfoDao, ClBaseInfoDao clBaseInfoDao, ClCarInfoDao clCarInfoDao, ClContractInfoDao clContractInfoDao, ClRiskControlInfoDao clRiskControlInfoDao, ClUserInfoDao clUserInfoDao, OrderMqDao orderMqDao) {
+    private final OrderRollBackOutput orderRollBackOutput;
+
+    public OrderService(ClAttachmentInfoDao clAttachmentInfoDao, ClBaseInfoDao clBaseInfoDao, ClCarInfoDao clCarInfoDao,
+                        ClContractInfoDao clContractInfoDao, ClRiskControlInfoDao clRiskControlInfoDao,
+                        ClUserInfoDao clUserInfoDao, CouponDao couponDao, OrderRollBackOutput orderRollBackOutput) {
         this.clAttachmentInfoDao = clAttachmentInfoDao;
         this.clBaseInfoDao = clBaseInfoDao;
         this.clCarInfoDao = clCarInfoDao;
         this.clContractInfoDao = clContractInfoDao;
         this.clRiskControlInfoDao = clRiskControlInfoDao;
         this.clUserInfoDao = clUserInfoDao;
-        this.orderMqDao = orderMqDao;
+        this.couponDao = couponDao;
+        this.orderRollBackOutput = orderRollBackOutput;
     }
 
     @Transactional(rollbackOn = RuntimeException.class)
     public ResponseData submitOrder(SubmitOrderVO submitOrderVO) {
         String load_order_no = UUID.randomUUID().toString().replace("-", "");
+
         ClBaseInfo clBaseInfo = submitOrderVO.getClBaseInfo();
         String biz_order_no = clBaseInfo.getBizOrderNo();
         clBaseInfo.setLoadOrderNo(load_order_no);
         clBaseInfo.setOrderStatus(19);
-        clBaseInfoDao.save(clBaseInfo);
 
         List<ClAttachmentInfo> attachmentInfos = submitOrderVO.getAttachmentInfos();
         attachmentInfos.forEach(e -> {
             e.setLoadOrderNo(load_order_no);
             e.setBizOrderNo(biz_order_no);
         });
-        clAttachmentInfoDao.saveAll(attachmentInfos);
 
         ClCarInfo clCarInfo = submitOrderVO.getClCarInfo();
         clCarInfo.setLoadOrderNo(load_order_no);
         clCarInfo.setBizOrderNo(biz_order_no);
-        clCarInfoDao.save(clCarInfo);
 
         List<ClContactInfo> contactInfos = submitOrderVO.getContactInfos();
         contactInfos.forEach(e -> {
             e.setLoadOrderNo(load_order_no);
             e.setBizOrderNo(biz_order_no);
         });
-        clContractInfoDao.saveAll(contactInfos);
 
         ClRiskControlInfo riskControlInfo = submitOrderVO.getRiskControlInfo();
         riskControlInfo.setLoadOrderNo(load_order_no);
         riskControlInfo.setBizOrderNo(biz_order_no);
-        clRiskControlInfoDao.save(riskControlInfo);
 
         ClUserInfo userInfo = submitOrderVO.getUserInfo();
         userInfo.setLoadOrderNo(load_order_no);
         userInfo.setBizOrderNo(biz_order_no);
-        clUserInfoDao.save(userInfo);
 
-        orderMqDao.attachmentUploadMq(AddAttachmentVO.builder().order_no(load_order_no).list(attachmentInfos).build());
-        orderMqDao.contractCreateMq(load_order_no);
+        ResponseData coupon = couponDao.use(load_order_no, biz_order_no);
+        if (coupon.getCode() != ResponseCode.SUCCESS) {
+            return ResponseData.builder().code(ResponseCode.BIZ_EXCEPTION).msg("优惠券使用失败").build();
+        }
+
+        clBaseInfoDao.save(clBaseInfo);
+        clCarInfoDao.save(clCarInfo);
+        clAttachmentInfoDao.saveAll(attachmentInfos);
+        clContractInfoDao.saveAll(contactInfos);
+        clRiskControlInfoDao.save(riskControlInfo);
+        clUserInfoDao.save(userInfo);
         return ResponseData.builder().code(ResponseCode.SUCCESS).build();
+    }
+
+    public void rollBackOrder(String load_order_no) {
+        boolean send = orderRollBackOutput.output().send(MessageBuilder.withPayload(load_order_no).build());
+        log.info(send + "");
     }
 
     @Transactional(rollbackOn = RuntimeException.class)
@@ -114,8 +132,6 @@ public class OrderService {
             e.setBizOrderNo(baseInfo.getBizOrderNo());
         });
         clAttachmentInfoDao.saveAll(vo.getList());
-        ResponseData data = orderMqDao.attachmentUploadMq(vo);
-        log.info(data.toString());
         return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 }

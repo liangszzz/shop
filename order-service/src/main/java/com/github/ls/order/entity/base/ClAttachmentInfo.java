@@ -1,4 +1,4 @@
-package com.github.ls.common.order;
+package com.github.ls.order.entity.base;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

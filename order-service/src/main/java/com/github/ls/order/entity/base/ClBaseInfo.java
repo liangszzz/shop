@@ -4,21 +4,24 @@ package com.github.ls.order.entity.base;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Data
-@Builder
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "cl_base_info")
-public class ClBaseInfo implements Serializable {
+public final class ClBaseInfo implements Serializable {
 
     @Id
     @GeneratedValue
@@ -38,7 +41,7 @@ public class ClBaseInfo implements Serializable {
     private String zlxOrderNo;
 
     @JsonIgnore
-    @Column(name = "orderStatus")
+    @Column(name = "order_status")
     @JsonProperty(value = "order_status")
     private Integer orderStatus;
 
@@ -56,7 +59,7 @@ public class ClBaseInfo implements Serializable {
 
     @Column(name = "load_date")
     @JsonProperty(value = "load_date")
-    private Date loadDate;
+    private LocalDateTime loadDate;
 
     @Column(name = "repayment_method", length = 50)
     @JsonProperty(value = "repayment_method")
@@ -109,12 +112,12 @@ public class ClBaseInfo implements Serializable {
     @Column(name = "contract_start_date", length = 50)
     @JsonFormat(timezone = "yyyy-MM-dd")
     @JsonProperty(value = "contract_start_date")
-    private Date contractStartDate;
+    private LocalDate contractStartDate;
 
     @Column(name = "contract_end_date", length = 50)
     @JsonFormat(timezone = "yyyy-MM-dd")
     @JsonProperty(value = "contract_end_date")
-    private Date contractEndDate;
+    private LocalDate contractEndDate;
 
     @Column(name = "contract_due_days", length = 50)
     @JsonProperty(value = "contract_due_days")
@@ -189,7 +192,7 @@ public class ClBaseInfo implements Serializable {
     @JsonProperty(value = "withholding_protocol_view_address")
     private String withholdingProtocolViewAddress;
 
-    @Column(name = "onLine", length = 50)
+    @Column(name = "on_line", length = 50)
     @JsonProperty(value = "onLine")
     private String onLine;
 
@@ -239,7 +242,7 @@ public class ClBaseInfo implements Serializable {
 
     @Column(name = "audit_date")
     @JsonProperty(value = "audit_date")
-    private Date auditDate;
+    private LocalDateTime auditDate;
 
     @Column(name = "create_by", length = 50)
     @JsonProperty(value = "create_by")
@@ -247,7 +250,7 @@ public class ClBaseInfo implements Serializable {
 
     @Column(name = "create_date")
     @JsonProperty(value = "create_date")
-    private Date createDate;
+    private LocalDateTime createDate;
 
     @Column(name = "loan_employers")
     @JsonProperty(value = "loan_employers")
@@ -259,7 +262,7 @@ public class ClBaseInfo implements Serializable {
 
     @Column(name = "car_pledge_register_date", length = 50)
     @JsonProperty(value = "car_pledge_register_date")
-    private Date carPledgeRegisterDate;
+    private LocalDate carPledgeRegisterDate;
 
     @Column(name = "wx_app_confirm", length = 50)
     @JsonProperty(value = "wx_app_confirm")

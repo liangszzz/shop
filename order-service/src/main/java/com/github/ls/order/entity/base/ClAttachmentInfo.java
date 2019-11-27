@@ -3,19 +3,20 @@ package com.github.ls.order.entity.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Null;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@Data
-@Builder
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "cl_attachment_info")
-public class ClAttachmentInfo implements Serializable {
+public final class ClAttachmentInfo implements Serializable {
 
     @Id
     @GeneratedValue
@@ -68,7 +69,7 @@ public class ClAttachmentInfo implements Serializable {
     @JsonIgnore
     @JsonProperty(value = "create_date")
     @Column(name = "create_date")
-    private Date createDate;
+    private LocalDateTime createDate;
 
     @JsonIgnore
     @JsonProperty(value = "has_update")

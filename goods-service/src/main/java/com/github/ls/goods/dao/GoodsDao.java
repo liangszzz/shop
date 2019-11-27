@@ -1,6 +1,6 @@
 package com.github.ls.goods.dao;
 
-import com.github.ls.goods.entity.base.Goods;
+import com.github.ls.goods.entity.Goods;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

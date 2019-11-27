@@ -2,6 +2,7 @@ package com.github.ls.coupon.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "shop_order_coupon")
 public class OrderCoupon implements Serializable {

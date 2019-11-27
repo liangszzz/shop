@@ -6,8 +6,8 @@ import com.github.ls.common.exceptions.BizException;
 import com.github.ls.common.exceptions.DataNotFoundException;
 import com.github.ls.goods.dao.GoodsDao;
 import com.github.ls.goods.dao.OrderGoodsDao;
-import com.github.ls.goods.entity.base.Goods;
-import com.github.ls.goods.entity.base.OrderGoods;
+import com.github.ls.goods.entity.Goods;
+import com.github.ls.goods.entity.OrderGoods;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -90,9 +90,7 @@ public class GoodsService {
 
         list.forEach(e -> {
             Optional<Goods> g1 = goodsDao.findByGoodsNoAndGoodsStatus(e.getGoodsNo(), 0);
-            if (g1.isPresent()) {
-                goods.add(g1.get().addGoodsNumber(e.getGoodsNumber()));
-            }
+            g1.ifPresent(value -> goods.add(value.addGoodsNumber(e.getGoodsNumber())));
         });
 
         orderGoodsDao.deleteAll(list);

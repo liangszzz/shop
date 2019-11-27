@@ -3,19 +3,21 @@ package com.github.ls.order.entity.base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
-@Data
-@Builder
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "cl_user_info")
-public class ClUserInfo implements Serializable {
+public final class ClUserInfo implements Serializable {
 
     @Id
     @GeneratedValue
@@ -152,6 +154,6 @@ public class ClUserInfo implements Serializable {
     @JsonFormat(timezone = "yyyy-MM-dd")
     @JsonProperty(value = "certificate_expiry_date")
     @Column(name = "certificate_expiry_date", length = 50)
-    private Date certificateExpiryDate;
+    private LocalDate certificateExpiryDate;
 
 }

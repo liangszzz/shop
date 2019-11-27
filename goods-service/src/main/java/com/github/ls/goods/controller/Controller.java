@@ -1,10 +1,9 @@
 package com.github.ls.goods.controller;
 
 import com.github.ls.common.entity.ResponseData;
-import com.github.ls.goods.entity.base.Goods;
+import com.github.ls.goods.entity.Goods;
 import com.github.ls.goods.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 

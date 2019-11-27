@@ -4,12 +4,13 @@ package com.github.ls.order.entity.base;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@Builder
+@NoArgsConstructor
 @Entity
 @Table(name = "cl_car_info")
 public class ClCarInfo implements Serializable {
@@ -43,7 +44,7 @@ public class ClCarInfo implements Serializable {
   private String carColor;
 
   @JsonProperty(value = "car_FrameNo")
-  @Column(name = "car_FrameNo", length = 50)
+  @Column(name = "car_frame_no", length = 50)
   private String carFrameNo;
 
   @JsonProperty(value = "car_engine_no")

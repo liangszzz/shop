@@ -1,15 +1,16 @@
 package com.github.ls.order.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class ApproveVO implements Serializable {
 
     @NotBlank

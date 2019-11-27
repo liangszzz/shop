@@ -7,15 +7,15 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.github.ls")
 @EnableDiscoveryClient
 @SpringBootApplication
 @EntityScan(basePackages = "com.github.ls.order.entity")
-@ComponentScan(value = {"com.github.ls.order","com.github.ls.goods","com.github.ls.coupon"})
+@ComponentScan(value = {"com.github.ls"})
 public class OrderServiceApplication {
 
     public static void main(String[] args) {
-        System.setProperty("hibernate.dialect.storage_engine","innodb");
+        System.setProperty("hibernate.dialect.storage_engine", "innodb");
         SpringApplication.run(OrderServiceApplication.class, args);
     }
 

@@ -2,19 +2,21 @@ package com.github.ls.order.entity.base;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
-@Data
-@Builder
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "cl_risk_control_info")
-public class ClRiskControlInfo implements Serializable {
+public final class ClRiskControlInfo implements Serializable {
 
     @Id
     @GeneratedValue
@@ -173,7 +175,7 @@ public class ClRiskControlInfo implements Serializable {
 
     @JsonProperty(value = "car_pledge_date")
     @Column(name = "car_pledge_date")
-    private Date carPledgeDate;
+    private LocalDate carPledgeDate;
 
     @JsonProperty(value = "product_type")
     @Column(name = "product_type", length = 50)

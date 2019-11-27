@@ -1,19 +1,19 @@
 package com.github.ls.order.controller;
 
+import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.coupon.entity.Coupon;
 import com.github.ls.goods.entity.Goods;
+import com.github.ls.order.dao.vo.OrderSubmitVO;
 import com.github.ls.order.service.ShopOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.UUID;
 
 @Valid
 @RefreshScope
@@ -30,10 +30,16 @@ public class OrderController {
 
 
     @PostMapping("submit")
-    public ResponseData submit(@NotNull @RequestParam("goods") List<Goods> goods, @NotNull @RequestParam("coupons") List<Coupon> coupons) {
-        shopOrderService.submit(goods, coupons);
-
-        return null;
+    public ResponseData submit(@RequestBody OrderSubmitVO orderSubmitVO) {
+        String orderNo = UUID.randomUUID().toString().replace("-", "");
+        try {
+            shopOrderService.submit(orderSubmitVO.getGoods(), orderSubmitVO.getCoupons(), orderNo);
+        } catch (RuntimeException e) {
+            log.info(e.getMessage());
+            shopOrderService.rollbackOrder(orderNo);
+            return ResponseData.builder().code(ResponseCode.BIZ_EXCEPTION).build();
+        }
+        return ResponseData.builder().code(ResponseCode.SUCCESS).msg(orderNo).build();
     }
 
 

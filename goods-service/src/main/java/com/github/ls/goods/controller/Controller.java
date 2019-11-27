@@ -3,6 +3,7 @@ package com.github.ls.goods.controller;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.goods.entity.Goods;
 import com.github.ls.goods.service.GoodsService;
+import com.github.ls.goods.vo.ConsumerGoods;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Valid
 @RefreshScope
@@ -42,8 +41,8 @@ public class Controller {
     }
 
     @PostMapping("/consumer")
-    public ResponseData consumer(@NotNull @RequestParam("goods") List<Goods> goods, @NotBlank @RequestParam("order_no") String orderNo) {
-        return goodsService.consumer(goods, orderNo);
+    public ResponseData consumer(@RequestBody ConsumerGoods consumerGoods) {
+        return goodsService.consumer(consumerGoods.getGoods(), consumerGoods.getOrderNo());
     }
 
 }

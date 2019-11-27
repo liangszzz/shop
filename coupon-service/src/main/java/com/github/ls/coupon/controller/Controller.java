@@ -3,6 +3,7 @@ package com.github.ls.coupon.controller;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.coupon.entity.Coupon;
 import com.github.ls.coupon.service.CouponService;
+import com.github.ls.coupon.vo.ConsumerCoupon;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.validation.annotation.Validated;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Validated
 @Slf4j
@@ -42,7 +41,7 @@ public class Controller {
     }
 
     @PostMapping("/consumer")
-    public ResponseData consumerGoods(@NotNull @RequestParam("coupons") List<Coupon> coupons, @NotBlank @RequestParam("order_no") String orderNo) {
-        return couponService.consumer(coupons, orderNo);
+    public ResponseData consumer(@RequestBody ConsumerCoupon consumerCoupon) {
+        return couponService.consumer(consumerCoupon.getCoupons(), consumerCoupon.getOrderNo());
     }
 }

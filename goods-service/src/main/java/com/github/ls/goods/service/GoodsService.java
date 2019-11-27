@@ -71,7 +71,7 @@ public class GoodsService {
                 orderGoods.setGoodsNo(e.getGoodsNo());
                 orderGoods.setGoodsNumber(e.getGoodsNumber());
                 orderGoods.setGoodsPrice(e.getGoodsPrice());
-
+                orderGoods.setCreateDateTime(LocalDateTime.now());
                 orderGoodsConsumers.add(orderGoods);
             } else {
                 throw new BizException(400, e.getGoodsName() + " 库存不足!");

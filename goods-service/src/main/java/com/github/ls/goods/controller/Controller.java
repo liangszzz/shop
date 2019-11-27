@@ -1,5 +1,6 @@
 package com.github.ls.goods.controller;
 
+import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.goods.entity.Goods;
 import com.github.ls.goods.service.GoodsService;
@@ -43,6 +44,12 @@ public class Controller {
     @PostMapping("/consumer")
     public ResponseData consumer(@RequestBody ConsumerGoods consumerGoods) {
         return goodsService.consumer(consumerGoods.getGoods(), consumerGoods.getOrderNo());
+    }
+
+    @PostMapping("/rollback")
+    public ResponseData rollback(@NotBlank @RequestParam("order_no") String orderNo) {
+        goodsService.rollBackOrder(orderNo);
+        return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 
 }

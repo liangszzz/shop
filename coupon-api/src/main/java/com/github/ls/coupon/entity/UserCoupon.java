@@ -8,14 +8,15 @@ import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "shop_coupon")
-public class Coupon {
+@Table(name = "shop_user_coupon")
+public class UserCoupon implements Serializable {
 
     @Id
     @GeneratedValue
@@ -26,10 +27,15 @@ public class Coupon {
     @Column(name = "coupon_no", length = 50, unique = true)
     private String couponNo;
 
+    @Min(value = 1)
+    @JsonProperty("coupon_number")
+    @Column(name = "coupon_number")
+    private Long couponNumber;
+
     @NotBlank
-    @JsonProperty("coupon_name")
-    @Column(name = "coupon_name", length = 50)
-    private String couponName;
+    @JsonProperty("username")
+    @Column(name = "username")
+    private String username;
 
     @DecimalMin(value = "0.01")
     @JsonProperty("coupon_amount")
@@ -44,5 +50,4 @@ public class Coupon {
     @JsonProperty("create_date_time")
     @Column(name = "create_date_time")
     private LocalDateTime createDateTime;
-
 }

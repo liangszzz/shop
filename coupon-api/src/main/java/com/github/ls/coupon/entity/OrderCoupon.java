@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,6 +23,11 @@ public class OrderCoupon implements Serializable {
     @JsonProperty("order_no")
     @Column(name = "order_no", length = 50)
     private String orderNo;
+
+    @NotBlank
+    @JsonProperty("username")
+    @Column(name = "username")
+    private String username;
 
     @JsonProperty("coupon_no")
     @Column(name = "coupon_no", length = 50)

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface CouponDao extends JpaRepository<Coupon,Long> {
 
-    Optional<Coupon> findByCouponNoAndCouponStatus(String couponNo,Integer couponStatus);
+    Optional<Coupon> findByCouponNoAndCouponStatus(String couponNo, Integer couponStatus);
 
     void deleteByCouponNo(String couponNo);
 }

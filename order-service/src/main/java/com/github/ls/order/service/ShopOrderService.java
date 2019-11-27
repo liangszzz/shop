@@ -4,7 +4,7 @@ import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.common.exceptions.BizException;
 import com.github.ls.common.mq.OrderRollBackInput;
-import com.github.ls.coupon.entity.Coupon;
+import com.github.ls.coupon.entity.UserCoupon;
 import com.github.ls.coupon.feign.CouponDao;
 import com.github.ls.coupon.vo.ConsumerCoupon;
 import com.github.ls.goods.entity.Goods;
@@ -40,7 +40,7 @@ public class ShopOrderService {
     }
 
 
-    public void submit(List<Goods> goods, List<Coupon> coupons, String orderNo) {
+    public void submit(List<Goods> goods, List<UserCoupon> coupons, String orderNo) {
         Order order = new Order();
         order.setOrderNo(orderNo);
         order.setUsername("user");
@@ -68,6 +68,8 @@ public class ShopOrderService {
             rocketMQTemplate.send(OrderRollBackInput.DESTINATION, MessageBuilder.withPayload(orderNo).build());
         } catch (Exception e) {
             log.info(e.getLocalizedMessage());
+            couponDao.rollback(orderNo);
+            goodsDao.rollback(orderNo);
         }
 
     }

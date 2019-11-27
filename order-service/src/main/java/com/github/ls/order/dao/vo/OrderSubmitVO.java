@@ -1,7 +1,7 @@
 package com.github.ls.order.dao.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.ls.coupon.entity.Coupon;
+import com.github.ls.coupon.entity.UserCoupon;
 import com.github.ls.goods.entity.Goods;
 import lombok.Data;
 
@@ -16,7 +16,7 @@ public class OrderSubmitVO implements Serializable {
     @Valid
     @NotNull
     @JsonProperty("coupons")
-    private List<Coupon> coupons;
+    private List<UserCoupon> coupons;
 
     @Valid
     @NotNull

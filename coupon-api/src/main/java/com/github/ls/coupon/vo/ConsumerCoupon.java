@@ -1,7 +1,7 @@
 package com.github.ls.coupon.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.ls.coupon.entity.Coupon;
+import com.github.ls.coupon.entity.UserCoupon;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -20,7 +20,7 @@ public class ConsumerCoupon implements Serializable {
     @Valid
     @NotNull
     @JsonProperty("coupons")
-    private List<Coupon> coupons;
+    private List<UserCoupon> coupons;
 
 
 }

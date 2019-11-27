@@ -2,8 +2,6 @@ package com.github.ls.order.controller;
 
 import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
-import com.github.ls.coupon.entity.Coupon;
-import com.github.ls.goods.entity.Goods;
 import com.github.ls.order.dao.vo.OrderSubmitVO;
 import com.github.ls.order.service.ShopOrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +9,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.UUID;
 
 @Valid

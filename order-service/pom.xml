@@ -16,7 +16,11 @@
             <artifactId>common</artifactId>
             <version>${common.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.ls</groupId>
+            <artifactId>order-api</artifactId>
+            <version>${common.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

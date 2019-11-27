@@ -31,7 +31,6 @@ public class Controller {
         try {
             responseData = orderService.submitOrder(vo);
         } catch (RuntimeException e) {
-            orderService.rollBackOrder(vo.getClBaseInfo().getLoadOrderNo());
             throw e;
         }
         return responseData;

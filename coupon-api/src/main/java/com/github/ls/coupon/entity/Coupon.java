@@ -37,6 +37,7 @@ public class Coupon implements Serializable {
     @Column(name = "coupon_number")
     private Long couponNumber;
 
+    @NotBlank
     @JsonProperty("username")
     @Column(name = "username")
     private String username;

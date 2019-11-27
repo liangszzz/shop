@@ -25,10 +25,13 @@
     </properties>
 
     <modules>
-        <module>order-service</module>
         <module>common</module>
+        <module>order-api</module>
+        <module>order-service</module>
         <module>sso-service</module>
+        <module>coupon-api</module>
         <module>coupon-service</module>
+        <module>goods-api</module>
         <module>goods-service</module>
     </modules>
 

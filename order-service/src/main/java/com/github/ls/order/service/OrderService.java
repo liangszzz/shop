@@ -3,7 +3,8 @@ package com.github.ls.order.service;
 import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.common.exceptions.DataNotFoundException;
-import com.github.ls.order.dao.*;
+import com.github.ls.order.dao.feign.CouponDao;
+import com.github.ls.order.dao.jpa.base.*;
 import com.github.ls.order.entity.base.*;
 import com.github.ls.order.entity.vo.AddAttachmentVO;
 import com.github.ls.order.entity.vo.ApproveVO;
@@ -86,11 +87,6 @@ public class OrderService {
         userInfo.setLoadOrderNo(load_order_no);
         userInfo.setBizOrderNo(biz_order_no);
 
-        ResponseData coupon = couponDao.use(load_order_no, biz_order_no);
-        if (coupon.getCode() != ResponseCode.SUCCESS) {
-            return ResponseData.builder().code(ResponseCode.BIZ_EXCEPTION).msg("优惠券使用失败").build();
-        }
-
         clBaseInfoDao.save(clBaseInfo);
         clCarInfoDao.save(clCarInfo);
         clAttachmentInfoDao.saveAll(attachmentInfos);
@@ -98,11 +94,6 @@ public class OrderService {
         clRiskControlInfoDao.save(riskControlInfo);
         clUserInfoDao.save(userInfo);
         return ResponseData.builder().code(ResponseCode.SUCCESS).build();
-    }
-
-    public void rollBackOrder(String load_order_no) {
-        Message<String> message = MessageBuilder.withPayload(load_order_no).build();
-        rocketMQTemplate.syncSend("order-rollback:TAG_A", message, 200, 3);
     }
 
     @Transactional(rollbackOn = RuntimeException.class)

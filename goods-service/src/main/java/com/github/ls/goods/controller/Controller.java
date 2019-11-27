@@ -33,13 +33,13 @@ public class Controller {
     }
 
     @PostMapping("/addNumber")
-    public ResponseData addNumber(@NotBlank @RequestParam("goods_id") String goodsId, @Min(value = 1) @RequestParam("number") Long number) {
-        return goodsService.addNumber(goodsId, number);
+    public ResponseData addNumber(@NotBlank @RequestParam("goods_no") String goodsNo, @Min(value = 1) @RequestParam("number") Long number) {
+        return goodsService.addNumber(goodsNo, number);
     }
 
     @PostMapping("/del")
-    public ResponseData del(@NotBlank @RequestParam("goods_id") String goodsId) {
-        return goodsService.del(goodsId);
+    public ResponseData del(@NotBlank @RequestParam("goods_no") String goodsNo) {
+        return goodsService.del(goodsNo);
     }
 
     @PostMapping("/consumer")

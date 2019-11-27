@@ -33,12 +33,13 @@ public class GoodsService {
 
     public ResponseData add(Goods goods) {
         goods.setCreateDateTime(LocalDateTime.now());
+        goods.setGoodsStatus(0);
         goodsDao.save(goods);
         return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 
     public ResponseData addNumber(String goodsNo, Long number) {
-        Goods goods = goodsDao.findByGoodsNo(goodsNo).orElseThrow(DataNotFoundException::new);
+        Goods goods = goodsDao.findByGoodsNoAndGoodsStatus(goodsNo, 0).orElseThrow(DataNotFoundException::new);
         if (goods.getGoodsNumber() + number >= 0) {
             goods.setGoodsNumber(goods.getGoodsNumber() + number);
             goodsDao.save(goods);
@@ -49,8 +50,9 @@ public class GoodsService {
     }
 
     public ResponseData del(String goodsNo) {
-        goodsDao.deleteByGoodsNo(goodsNo);
-        orderGoodsDao.deleteByGoodsNo(goodsNo);
+        Goods goods = goodsDao.findByGoodsNoAndGoodsStatus(goodsNo, 0).orElseThrow(DataNotFoundException::new);
+        goods.setGoodsStatus(1);
+        goodsDao.save(goods);
         return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 
@@ -59,15 +61,18 @@ public class GoodsService {
         List<OrderGoods> orderGoodsConsumers = new ArrayList<>(goods.size());
 
         goods.forEach(e -> {
-            Goods g1 = goodsDao.findByGoodsNo(e.getGoodsNo()).orElseThrow(DataNotFoundException::new);
+            Goods g1 = goodsDao.findByGoodsNoAndGoodsStatus(e.getGoodsNo(), 0).orElseThrow(DataNotFoundException::new);
             if (g1.getGoodsNumber() >= e.getGoodsNumber()) {
                 g1.setGoodsNumber(g1.getGoodsNumber() - e.getGoodsNumber());
+                goodsConsumers.add(g1);
+
                 OrderGoods orderGoods = new OrderGoods();
                 orderGoods.setOrderNo(orderNo);
                 orderGoods.setGoodsNo(e.getGoodsNo());
                 orderGoods.setGoodsNumber(e.getGoodsNumber());
+                orderGoods.setGoodsPrice(e.getGoodsPrice());
+
                 orderGoodsConsumers.add(orderGoods);
-                goodsConsumers.add(g1);
             } else {
                 throw new BizException(400, e.getGoodsName() + " 库存不足!");
             }
@@ -84,7 +89,7 @@ public class GoodsService {
         List<Goods> goods = new ArrayList<>(list.size());
 
         list.forEach(e -> {
-            Optional<Goods> g1 = goodsDao.findByGoodsNo(e.getGoodsNo());
+            Optional<Goods> g1 = goodsDao.findByGoodsNoAndGoodsStatus(e.getGoodsNo(), 0);
             if (g1.isPresent()) {
                 goods.add(g1.get().addGoodsNumber(e.getGoodsNumber()));
             }

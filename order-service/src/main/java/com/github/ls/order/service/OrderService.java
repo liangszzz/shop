@@ -15,7 +15,7 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -112,7 +112,7 @@ public class OrderService {
         if (baseInfo.getOrderStatus() == null || baseInfo.getOrderStatus() != 19) {
             return ResponseData.builder().code(ResponseCode.DATA_STATUS_ERROR).msg("订单非待审核状态!").build();
         }
-        baseInfo.setAuditDate(new Date());
+        baseInfo.setAuditDate(LocalDateTime.now());
         baseInfo.setAuditName(vo.getAudit_name());
         baseInfo.setOrderStatus(Integer.parseInt(vo.getOrder_status()));
         clBaseInfoDao.save(baseInfo);

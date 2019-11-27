@@ -42,7 +42,7 @@ public class Controller {
     }
 
     @PostMapping("/consumer")
-    public ResponseData consumerGoods(@NotNull @RequestParam("goods") List<Coupon> coupons, @NotBlank @RequestParam("order_no") String orderNo) {
+    public ResponseData consumerGoods(@NotNull @RequestParam("coupons") List<Coupon> coupons, @NotBlank @RequestParam("order_no") String orderNo) {
         return couponService.consumer(coupons, orderNo);
     }
 }

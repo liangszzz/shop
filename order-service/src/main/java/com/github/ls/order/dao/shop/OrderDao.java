@@ -1,4 +1,4 @@
-package com.github.ls.order.dao.jpa.shop;
+package com.github.ls.order.dao.shop;
 
 import com.github.ls.order.entity.shop.Order;
 import org.springframework.data.jpa.repository.JpaRepository;

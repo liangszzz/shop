@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableDiscoveryClient
 @SpringBootApplication
 @EntityScan(basePackages = "com.github.ls.order.entity")
-@ComponentScan(value = {"com.github.ls"})
+@ComponentScan(value = {"com.github.ls.order","com.github.ls.goods","com.github.ls.coupon"})
 public class OrderServiceApplication {
 
     public static void main(String[] args) {

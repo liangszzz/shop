@@ -1,4 +1,4 @@
-package com.github.ls.order.dao.jpa.base;
+package com.github.ls.order.dao.base;
 
 import com.github.ls.order.entity.base.ClCarInfo;
 import org.springframework.data.jpa.repository.JpaRepository;

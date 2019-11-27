@@ -3,16 +3,13 @@ package com.github.ls.order.service;
 import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.common.exceptions.DataNotFoundException;
-import com.github.ls.order.dao.feign.CouponDao;
-import com.github.ls.order.dao.jpa.base.*;
+import com.github.ls.order.dao.base.*;
 import com.github.ls.order.entity.base.*;
 import com.github.ls.order.entity.vo.AddAttachmentVO;
 import com.github.ls.order.entity.vo.ApproveVO;
 import com.github.ls.order.entity.vo.SubmitOrderVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -37,20 +34,17 @@ public class OrderService {
 
     private final ClUserInfoDao clUserInfoDao;
 
-    private final CouponDao couponDao;
-
     private RocketMQTemplate rocketMQTemplate;
 
     public OrderService(ClAttachmentInfoDao clAttachmentInfoDao, ClBaseInfoDao clBaseInfoDao, ClCarInfoDao clCarInfoDao,
                         ClContractInfoDao clContractInfoDao, ClRiskControlInfoDao clRiskControlInfoDao,
-                        ClUserInfoDao clUserInfoDao, CouponDao couponDao, RocketMQTemplate rocketMQTemplate) {
+                        ClUserInfoDao clUserInfoDao, RocketMQTemplate rocketMQTemplate) {
         this.clAttachmentInfoDao = clAttachmentInfoDao;
         this.clBaseInfoDao = clBaseInfoDao;
         this.clCarInfoDao = clCarInfoDao;
         this.clContractInfoDao = clContractInfoDao;
         this.clRiskControlInfoDao = clRiskControlInfoDao;
         this.clUserInfoDao = clUserInfoDao;
-        this.couponDao = couponDao;
         this.rocketMQTemplate = rocketMQTemplate;
     }
 

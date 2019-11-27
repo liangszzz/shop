@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class OrderServiceApplication {
 
     public static void main(String[] args) {
+        System.setProperty("hibernate.dialect.storage_engine","innodb");
         SpringApplication.run(OrderServiceApplication.class, args);
     }
 

@@ -1,6 +1,7 @@
 package com.github.ls.coupon.mq;
 
 import com.github.ls.common.mq.OrderRollBackInput;
+import com.github.ls.coupon.service.CouponService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -11,8 +12,15 @@ import org.springframework.stereotype.Service;
 @EnableBinding(OrderRollBackInput.class)
 public class OrderRollBackService {
 
-    @StreamListener(value = OrderRollBackInput.ORDER_INPUT,condition = "headers.rocketmq_TAGS eq 'TAG_A'")
-    public void rollBackOrder(String order_no) {
-        log.info("rollback:" + order_no);
+    private final CouponService couponService;
+
+    public OrderRollBackService(CouponService couponService) {
+        this.couponService = couponService;
+    }
+
+    @StreamListener(value = OrderRollBackInput.ORDER_INPUT)
+    public void rollBackOrder(String orderNo) {
+        log.info("rollback:" + orderNo);
+        couponService.rollbackOrder(orderNo);
     }
 }

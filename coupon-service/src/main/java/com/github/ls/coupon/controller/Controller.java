@@ -1,15 +1,21 @@
 package com.github.ls.coupon.controller;
 
-import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
+import com.github.ls.coupon.entity.Coupon;
+import com.github.ls.coupon.service.CouponService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Validated
 @Slf4j
@@ -17,9 +23,29 @@ import javax.validation.constraints.NotBlank;
 @RestController
 public class Controller {
 
-    @PostMapping(value = "/use")
-    public ResponseData use(@NotBlank @RequestParam String order_no, @NotBlank @RequestParam String coupon_no) {
-        log.info("#used coupon order_no:" + order_no + " coupon_no:" + coupon_no);
-        return ResponseData.builder().code(ResponseCode.SUCCESS).build();
+    private final CouponService couponService;
+
+    public Controller(CouponService couponService) {
+        this.couponService = couponService;
+    }
+
+    @PostMapping("/add")
+    public ResponseData add(@RequestBody Coupon coupon) {
+        return couponService.add(coupon);
+    }
+
+    @PostMapping("/addNumber")
+    public ResponseData addNumber(@NotBlank @RequestParam("coupon_no") String couponNo, @Min(value = 1) @RequestParam("number") Long number) {
+        return couponService.addNumber(couponNo, number);
+    }
+
+    @PostMapping("/del")
+    public ResponseData delGoods(@NotBlank @RequestParam("coupon_no") String couponNo) {
+        return couponService.del(couponNo);
+    }
+
+    @PostMapping("/consumer")
+    public ResponseData consumerGoods(@NotNull @RequestParam("goods") List<Coupon> coupons, @NotBlank @RequestParam("order_no") String orderNo) {
+        return couponService.consumer(coupons, orderNo);
     }
 }

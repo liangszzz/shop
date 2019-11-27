@@ -11,6 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class SsoServiceApplication {
 
     public static void main(String[] args) {
+        System.setProperty("hibernate.dialect.storage_engine","innodb");
         SpringApplication.run(SsoServiceApplication.class, args);
     }
 

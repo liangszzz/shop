@@ -31,36 +31,40 @@ public class GoodsService {
         this.orderGoodsDao = orderGoodsDao;
     }
 
-    public ResponseData addGoods(Goods goods) {
+    public ResponseData add(Goods goods) {
         goods.setCreateDateTime(LocalDateTime.now());
         goodsDao.save(goods);
         return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 
-    public ResponseData addGoodsNumber(String goodsId, Long number) {
-        Goods goods = goodsDao.findByGoodsId(goodsId).orElseThrow(DataNotFoundException::new);
-        goods.setGoodsNumber(goods.getGoodsNumber() + number);
-        goodsDao.save(goods);
+    public ResponseData addNumber(String goodsNo, Long number) {
+        Goods goods = goodsDao.findByGoodsNo(goodsNo).orElseThrow(DataNotFoundException::new);
+        if (goods.getGoodsNumber() + number >= 0) {
+            goods.setGoodsNumber(goods.getGoodsNumber() + number);
+            goodsDao.save(goods);
+            return ResponseData.builder().code(ResponseCode.SUCCESS).build();
+        } else {
+            return ResponseData.builder().code(ResponseCode.BIZ_EXCEPTION).msg("库存不能小于0").build();
+        }
+    }
+
+    public ResponseData del(String goodsNo) {
+        goodsDao.deleteByGoodsNo(goodsNo);
+        orderGoodsDao.deleteByGoodsNo(goodsNo);
         return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 
-    public ResponseData delGoods(String goodsId) {
-        goodsDao.deleteByGoodsId(goodsId);
-        orderGoodsDao.deleteByGoodsId(goodsId);
-        return ResponseData.builder().code(ResponseCode.SUCCESS).build();
-    }
-
-    public ResponseData consumerGoods(List<Goods> goods, String orderNo) {
+    public ResponseData consumer(List<Goods> goods, String orderNo) {
         List<Goods> goodsConsumers = new ArrayList<>(goods.size());
         List<OrderGoods> orderGoodsConsumers = new ArrayList<>(goods.size());
 
         goods.forEach(e -> {
-            Goods g1 = goodsDao.findByGoodsId(e.getGoodsId()).orElseThrow(DataNotFoundException::new);
+            Goods g1 = goodsDao.findByGoodsNo(e.getGoodsNo()).orElseThrow(DataNotFoundException::new);
             if (g1.getGoodsNumber() >= e.getGoodsNumber()) {
                 g1.setGoodsNumber(g1.getGoodsNumber() - e.getGoodsNumber());
                 OrderGoods orderGoods = new OrderGoods();
                 orderGoods.setOrderNo(orderNo);
-                orderGoods.setGoodsId(e.getGoodsId());
+                orderGoods.setGoodsNo(e.getGoodsNo());
                 orderGoods.setGoodsNumber(e.getGoodsNumber());
                 orderGoodsConsumers.add(orderGoods);
                 goodsConsumers.add(g1);
@@ -80,7 +84,7 @@ public class GoodsService {
         List<Goods> goods = new ArrayList<>(list.size());
 
         list.forEach(e -> {
-            Optional<Goods> g1 = goodsDao.findByGoodsId(e.getGoodsId());
+            Optional<Goods> g1 = goodsDao.findByGoodsNo(e.getGoodsNo());
             if (g1.isPresent()) {
                 goods.add(g1.get().addGoodsNumber(e.getGoodsNumber()));
             }

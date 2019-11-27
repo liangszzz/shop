@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface GoodsDao extends JpaRepository<Goods, Long> {
 
 
-    Optional<Goods> findByGoodsId(String goodsId);
+    Optional<Goods> findByGoodsNo(String goodsId);
 
-    void deleteByGoodsId(String goodsId);
+    void deleteByGoodsNo(String goodsId);
 }

@@ -23,10 +23,10 @@ public class OrderGoods implements Serializable {
     @Column(name = "order_no", length = 50)
     private String orderNo;
 
-    @JsonProperty("goods_id")
+    @JsonProperty("goods_no")
     @NotBlank
-    @Column(name = "goods_id", length = 50)
-    private String goodsId;
+    @Column(name = "goods_no", length = 50)
+    private String goodsNo;
 
     @JsonProperty("goods_number")
     @Min(value = 1)

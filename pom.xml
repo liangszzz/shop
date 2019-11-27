@@ -28,7 +28,6 @@
         <module>order-service</module>
         <module>common</module>
         <module>sso-service</module>
-<!--        <module>stream-service</module>-->
         <module>coupon-service</module>
         <module>goods-service</module>
     </modules>
@@ -66,6 +65,11 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->

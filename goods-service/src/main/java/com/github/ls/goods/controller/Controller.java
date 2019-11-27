@@ -21,27 +21,30 @@ import java.util.List;
 @RequestMapping(value = "api/v1/goods", consumes = {"application/json"})
 public class Controller {
 
-    @Autowired
-    private GoodsService goodsService;
+    private final GoodsService goodsService;
+
+    public Controller(GoodsService goodsService) {
+        this.goodsService = goodsService;
+    }
 
     @PostMapping("/add")
-    public ResponseData addGoods(@RequestBody Goods goods) {
-        return goodsService.addGoods(goods);
+    public ResponseData add(@RequestBody Goods goods) {
+        return goodsService.add(goods);
     }
 
     @PostMapping("/addNumber")
-    public ResponseData addGoodsNumber(@NotBlank @RequestParam("goods_id") String goodsId, @Min(value = 1) @RequestParam("number") Long number) {
-        return goodsService.addGoodsNumber(goodsId, number);
+    public ResponseData addNumber(@NotBlank @RequestParam("goods_id") String goodsId, @Min(value = 1) @RequestParam("number") Long number) {
+        return goodsService.addNumber(goodsId, number);
     }
 
     @PostMapping("/del")
-    public ResponseData delGoods(@NotBlank @RequestParam("goods_id") String goodsId) {
-        return goodsService.delGoods(goodsId);
+    public ResponseData del(@NotBlank @RequestParam("goods_id") String goodsId) {
+        return goodsService.del(goodsId);
     }
 
     @PostMapping("/consumer")
-    public ResponseData consumerGoods(@NotNull @RequestParam("goods") List<Goods> goods, @NotBlank @RequestParam("order_no") String orderNo) {
-        return goodsService.consumerGoods(goods, orderNo);
+    public ResponseData consumer(@NotNull @RequestParam("goods") List<Goods> goods, @NotBlank @RequestParam("order_no") String orderNo) {
+        return goodsService.consumer(goods, orderNo);
     }
 
 }

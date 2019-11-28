@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -30,20 +31,14 @@ public class CouponControllerTest {
 
     private Coupon coupon;
 
-    private static ObjectMapper mapper;
+    private ObjectMapper mapper = new ObjectMapper();
 
-    private static String no;
-
-    @BeforeAll
-    public static void beforeAll() {
-        no = "cacf63a2-cb1c-47e6-bbc7-9819e4c32ec3";
-        mapper = new ObjectMapper();
-    }
+    private static String couponNo = UUID.randomUUID().toString();
 
     @BeforeEach
     public void before() {
         Coupon tmp = new Coupon();
-        tmp.setCouponNo(no);
+        tmp.setCouponNo(couponNo);
         tmp.setCouponName("coupon_001_name");
         tmp.setCouponAmount(new BigDecimal("1.0"));
         coupon = tmp;
@@ -81,7 +76,7 @@ public class CouponControllerTest {
     public void del() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/api/v1/coupon/del")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("coupon_no", no);
+                .param("coupon_no", couponNo);
         MvcResult mvcResult = mockMvc.perform(request).andReturn();
         ResponseData responseData = mapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseData.class);
         Assertions.assertEquals(responseData.getCode(), ResponseCode.SUCCESS);

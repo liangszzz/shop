@@ -2,14 +2,14 @@ package com.github.ls.coupon.fallback;
 
 import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
-import com.github.ls.coupon.feign.CouponDao;
+import com.github.ls.coupon.feign.UserCouponFeignDao;
 import com.github.ls.coupon.vo.ConsumerCoupon;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
 
 @Component
-public class CouponDaoFallback implements CouponDao {
+public class UserCouponFeignDaoFallback implements UserCouponFeignDao {
 
     @Override
     public ResponseData consumer(ConsumerCoupon consumerCoupon) {

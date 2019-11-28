@@ -74,8 +74,9 @@ public class UserCouponService {
 
                 OrderCoupon orderCoupon = new OrderCoupon();
                 orderCoupon.setOrderNo(orderNo);
-                orderCoupon.setCouponAmount(e.getCouponAmount());
-                orderCoupon.setCouponNo(e.getCouponNo());
+                orderCoupon.setUsername(coupon.getUsername());
+                orderCoupon.setCouponAmount(coupon.getCouponAmount());
+                orderCoupon.setCouponNo(coupon.getCouponNo());
                 orderCoupon.setCouponNumber(e.getCouponNumber());
                 orderCoupon.setCreateDateTime(LocalDateTime.now());
 

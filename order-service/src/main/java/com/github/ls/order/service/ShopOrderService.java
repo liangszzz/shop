@@ -5,7 +5,7 @@ import com.github.ls.common.entity.ResponseData;
 import com.github.ls.common.exceptions.BizException;
 import com.github.ls.common.mq.OrderRollBackInput;
 import com.github.ls.coupon.entity.UserCoupon;
-import com.github.ls.coupon.feign.CouponDao;
+import com.github.ls.coupon.feign.UserCouponFeignDao;
 import com.github.ls.coupon.vo.ConsumerCoupon;
 import com.github.ls.goods.entity.Goods;
 import com.github.ls.goods.feign.GoodsDao;
@@ -27,14 +27,14 @@ import java.util.List;
 public class ShopOrderService {
 
     private final OrderDao orderDao;
-    private final CouponDao couponDao;
+    private final UserCouponFeignDao userCouponFeignDao;
     private final GoodsDao goodsDao;
 
     private final RocketMQTemplate rocketMQTemplate;
 
-    public ShopOrderService(OrderDao orderDao, CouponDao couponDao, GoodsDao goodsDao, RocketMQTemplate rocketMQTemplate) {
+    public ShopOrderService(OrderDao orderDao, UserCouponFeignDao userCouponFeignDao, GoodsDao goodsDao, RocketMQTemplate rocketMQTemplate) {
         this.orderDao = orderDao;
-        this.couponDao = couponDao;
+        this.userCouponFeignDao = userCouponFeignDao;
         this.goodsDao = goodsDao;
         this.rocketMQTemplate = rocketMQTemplate;
     }
@@ -50,7 +50,7 @@ public class ShopOrderService {
         consumerCoupon.setOrderNo(orderNo);
         consumerCoupon.setCoupons(coupons);
 
-        ResponseData data1 = couponDao.consumer(consumerCoupon);
+        ResponseData data1 = userCouponFeignDao.consumer(consumerCoupon);
         if (ResponseCode.SUCCESS != data1.getCode()) throw BizException.builder().biz_code(500).msg("优惠券消费失败!").build();
 
         ConsumerGoods consumerGoods = new ConsumerGoods();
@@ -68,7 +68,7 @@ public class ShopOrderService {
             rocketMQTemplate.send(OrderRollBackInput.DESTINATION, MessageBuilder.withPayload(orderNo).build());
         } catch (Exception e) {
             log.info(e.getLocalizedMessage());
-            couponDao.rollback(orderNo);
+            userCouponFeignDao.rollback(orderNo);
             goodsDao.rollback(orderNo);
         }
 

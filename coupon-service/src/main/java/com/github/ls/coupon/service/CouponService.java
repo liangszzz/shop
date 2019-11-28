@@ -34,9 +34,8 @@ public class CouponService {
     }
 
     public ResponseData update(Coupon coupon) {
-        Coupon c = couponDao.findByCouponNoAndCouponStatus(coupon.getCouponNo(),
-                coupon.getCouponStatus()).orElseThrow(DataNotFoundException::new);
-        c.setCouponStatus(coupon.getCouponStatus());
+        Coupon c = couponDao.findByCouponNoAndCouponStatus(coupon.getCouponNo(), 0)
+                .orElseThrow(DataNotFoundException::new);
         c.setCouponAmount(coupon.getCouponAmount());
         c.setCouponName(coupon.getCouponName());
         couponDao.save(c);

@@ -8,9 +8,9 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-@Validated
 @Slf4j
 @RefreshScope
 @RestController
@@ -23,13 +23,13 @@ public class CouponController {
         this.couponService = couponService;
     }
 
-    @PostMapping("/add")
-    public ResponseData add(@RequestBody Coupon coupon) {
+    @PostMapping("add")
+    public ResponseData add(@Valid @RequestBody Coupon coupon) {
         return couponService.add(coupon);
     }
 
     @PostMapping("/update")
-    public ResponseData update(@RequestBody Coupon coupon) {
+    public ResponseData update(@Valid @RequestBody Coupon coupon) {
         return couponService.update(coupon);
     }
 

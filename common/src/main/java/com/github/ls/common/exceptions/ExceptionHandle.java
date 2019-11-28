@@ -34,7 +34,7 @@ public class ExceptionHandle {
         List<String> errorMsg = new ArrayList<>();
 
         for (FieldError error : fieldErrors) {
-            errorMsg.add(error.getDefaultMessage());
+            errorMsg.add(error.getField() + ":" + error.getDefaultMessage());
         }
 
         return ResponseData.builder().code(ResponseCode.BIZ_EXCEPTION).msg(errorMsg.toString()).build();
@@ -43,6 +43,7 @@ public class ExceptionHandle {
     @ResponseBody
     @ExceptionHandler({DataNotFoundException.class})
     public ResponseData DataNotFoundExceptionHandler(DataNotFoundException ex) {
+        log.info(ex.getMessage());
         return ResponseData.builder().code(ResponseCode.BIZ_EXCEPTION).msg(ex.getMessage()).build();
     }
 

@@ -13,7 +13,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
-@Valid
 @RefreshScope
 @Slf4j
 @RestController
@@ -27,7 +26,7 @@ public class Controller {
     }
 
     @PostMapping("/add")
-    public ResponseData add(@RequestBody Goods goods) {
+    public ResponseData add(@Valid @RequestBody Goods goods) {
         return goodsService.add(goods);
     }
 
@@ -42,7 +41,7 @@ public class Controller {
     }
 
     @PostMapping("/consumer")
-    public ResponseData consumer(@RequestBody ConsumerGoods consumerGoods) {
+    public ResponseData consumer(@Valid @RequestBody ConsumerGoods consumerGoods) {
         return goodsService.consumer(consumerGoods.getGoods(), consumerGoods.getOrderNo());
     }
 

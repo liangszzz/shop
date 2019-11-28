@@ -2,6 +2,7 @@ package com.github.ls.coupon.service;
 
 import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
+import com.github.ls.common.entity.ResponseResult;
 import com.github.ls.common.exceptions.BizException;
 import com.github.ls.common.exceptions.DataNotFoundException;
 import com.github.ls.coupon.dao.CouponDao;
@@ -58,6 +59,13 @@ public class UserCouponService {
         coupon.setCouponStatus(1);
         userCouponDao.save(coupon);
         return ResponseData.builder().code(ResponseCode.SUCCESS).build();
+    }
+
+    public ResponseData getAllByUsername(String username) {
+        List<UserCoupon> userCoupons = userCouponDao.findAllByUsername(username);
+        ResponseResult result = new ResponseResult();
+        result.put("coupons", userCoupons);
+        return ResponseData.builder().code(ResponseCode.SUCCESS).result(result).build();
     }
 
     public ResponseData consumer(List<UserCoupon> coupons, String orderNo) {

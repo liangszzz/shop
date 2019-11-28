@@ -50,15 +50,16 @@ public class ShopOrderService {
         consumerCoupon.setOrderNo(orderNo);
         consumerCoupon.setCoupons(coupons);
 
-        ResponseData data1 = userCouponFeignDao.consumer(consumerCoupon);
-        if (ResponseCode.SUCCESS != data1.getCode()) throw BizException.builder().biz_code(500).msg("优惠券消费失败!").build();
-
         ConsumerGoods consumerGoods = new ConsumerGoods();
         consumerGoods.setOrderNo(orderNo);
         consumerGoods.setGoods(goods);
 
         ResponseData data2 = goodsFeignDao.consumer(consumerGoods);
         if (ResponseCode.SUCCESS != data2.getCode()) throw BizException.builder().biz_code(500).msg("商品消费失败!").build();
+
+        ResponseData data1 = userCouponFeignDao.consumer(consumerCoupon);
+        if (ResponseCode.SUCCESS != data1.getCode()) throw BizException.builder().biz_code(500).msg("优惠券消费失败!").build();
+
 
         orderDao.save(order);
     }

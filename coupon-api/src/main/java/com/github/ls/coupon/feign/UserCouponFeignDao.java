@@ -16,10 +16,10 @@ import javax.validation.constraints.NotBlank;
 @FeignClient(value = "spring-cloud-coupon", fallback = UserCouponFeignDaoFallback.class)
 public interface UserCouponFeignDao {
 
-    @PostMapping("api/v1/coupon/consumer")
-    ResponseData consumer(@Valid  @RequestBody ConsumerCoupon consumerCoupon);
+    @PostMapping(value = "api/v1/coupon/user/consumer", consumes = "application/json")
+    ResponseData consumer(@Valid @RequestBody ConsumerCoupon consumerCoupon);
 
-    @PostMapping("api/v1/coupon/rollback")
+    @PostMapping(value = "api/v1/coupon/user/rollback", consumes = "application/json")
     ResponseData rollback(@NotBlank @RequestParam("order_no") String orderNo);
 
 }

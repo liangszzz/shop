@@ -1,6 +1,7 @@
 package com.github.ls.coupon.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,16 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "shop_user_coupon")
 public class UserCoupon implements Serializable {
+
+    @Builder
+    public UserCoupon(@NotBlank String couponNo, @Min(value = 1) Long couponNumber, @NotBlank String username, @DecimalMin(value = "0.01") BigDecimal couponAmount, @Min(value = 0) Integer couponStatus, LocalDateTime createDateTime) {
+        this.couponNo = couponNo;
+        this.couponNumber = couponNumber;
+        this.username = username;
+        this.couponAmount = couponAmount;
+        this.couponStatus = couponStatus;
+        this.createDateTime = createDateTime;
+    }
 
     @Id
     @GeneratedValue

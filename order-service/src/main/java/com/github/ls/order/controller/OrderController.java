@@ -15,7 +15,7 @@ import java.util.UUID;
 @RefreshScope
 @Slf4j
 @RestController
-@RequestMapping(value = "api/v1/shop/order", consumes = {"application/json"})
+@RequestMapping(value = "api/v1/order", consumes = {"application/json"})
 public class OrderController {
 
     private final ShopOrderService shopOrderService;

@@ -35,6 +35,11 @@ public class UserCouponController {
         return userCouponService.del(userCoupon);
     }
 
+    @PostMapping("/getAllByUsername")
+    public ResponseData getAllByUsername(@NotBlank @RequestParam("username") String username){
+        return userCouponService.getAllByUsername(username);
+    }
+
     @PostMapping("/consumer")
     public ResponseData consumer(@Valid @RequestBody ConsumerCoupon consumerCoupon) {
         return userCouponService.consumer(consumerCoupon.getCoupons(), consumerCoupon.getOrderNo());

@@ -1,6 +1,7 @@
 package com.github.ls.goods.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,16 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "shop_goods")
 public class Goods implements Serializable {
+
+    @Builder
+    public Goods(@NotBlank String goodsNo, @NotBlank String goodsName, @Min(value = 1) Long goodsNumber, @DecimalMin(value = "0.01") BigDecimal goodsPrice, @Min(value = 0) Integer goodsStatus, LocalDateTime createDateTime) {
+        this.goodsNo = goodsNo;
+        this.goodsName = goodsName;
+        this.goodsNumber = goodsNumber;
+        this.goodsPrice = goodsPrice;
+        this.goodsStatus = goodsStatus;
+        this.createDateTime = createDateTime;
+    }
 
     @Id
     @GeneratedValue

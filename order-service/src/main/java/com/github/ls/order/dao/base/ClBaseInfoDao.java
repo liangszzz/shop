@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Component
 public interface ClBaseInfoDao extends JpaRepository<ClBaseInfo, Long> {
 
     Optional<ClBaseInfo> findByLoadOrderNo(String loadOrderNo);

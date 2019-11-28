@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 @Primary
@@ -16,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 public interface CouponDao {
 
     @PostMapping("api/v1/coupon/consumer")
-    ResponseData consumer(@RequestBody ConsumerCoupon consumerCoupon);
+    ResponseData consumer(@Valid  @RequestBody ConsumerCoupon consumerCoupon);
 
     @PostMapping("api/v1/coupon/rollback")
     ResponseData rollback(@NotBlank @RequestParam("order_no") String orderNo);

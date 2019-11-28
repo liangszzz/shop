@@ -7,9 +7,11 @@ import com.github.ls.common.exceptions.DataNotFoundException;
 import com.github.ls.coupon.dao.CouponDao;
 import com.github.ls.coupon.dao.OrderCouponDao;
 import com.github.ls.coupon.dao.UserCouponDao;
+import com.github.ls.coupon.entity.Coupon;
 import com.github.ls.coupon.entity.OrderCoupon;
 import com.github.ls.coupon.entity.UserCoupon;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,33 +26,35 @@ public class UserCouponService {
 
     private final UserCouponDao userCouponDao;
 
+    private final CouponDao couponDao;
+
     private final OrderCouponDao orderCouponDao;
 
-    public UserCouponService(UserCouponDao userCouponDao, OrderCouponDao orderCouponDao) {
+    public UserCouponService(UserCouponDao userCouponDao, OrderCouponDao orderCouponDao, CouponDao couponDao) {
         this.userCouponDao = userCouponDao;
         this.orderCouponDao = orderCouponDao;
+        this.couponDao = couponDao;
     }
 
-    public ResponseData add(UserCoupon coupon) {
-        coupon.setCreateDateTime(LocalDateTime.now());
-        coupon.setCouponStatus(0);
-        userCouponDao.save(coupon);
-        return ResponseData.builder().code(ResponseCode.SUCCESS).build();
-    }
+    public ResponseData add(UserCoupon userCoupon) {
+        Coupon coupon = couponDao.findByCouponNoAndCouponStatus(userCoupon.getCouponNo(), 0)
+                .orElseThrow(DataNotFoundException::new);
 
-    public ResponseData updateUserCoupon(UserCoupon userCoupon) {
-        UserCoupon coupon = userCouponDao.findByCouponNoAndCouponStatusAndUsername(userCoupon.getCouponNo(),
-                userCoupon.getCouponStatus(), userCoupon.getUsername()).orElseThrow(DataNotFoundException::new);
-        coupon.setCouponAmount(userCoupon.getCouponAmount());
-        coupon.setCouponNumber(userCoupon.getCouponNumber());
-        coupon.setCouponStatus(userCoupon.getCouponStatus());
-        userCouponDao.save(coupon);
+        userCouponDao.findByCouponNoAndCouponStatusAndUsername(userCoupon.getCouponNo(),
+                0, userCoupon.getUsername()).ifPresent(e -> {
+            throw new BizException(400, "优惠券限每人一张");
+        });
+
+        userCoupon.setCouponAmount(coupon.getCouponAmount());
+        userCoupon.setCreateDateTime(LocalDateTime.now());
+        userCoupon.setCouponStatus(0);
+        userCouponDao.save(userCoupon);
         return ResponseData.builder().code(ResponseCode.SUCCESS).build();
     }
 
     public ResponseData del(UserCoupon userCoupon) {
         UserCoupon coupon = userCouponDao.findByCouponNoAndCouponStatusAndUsername(userCoupon.getCouponNo(),
-                userCoupon.getCouponStatus(), userCoupon.getUsername()).orElseThrow(DataNotFoundException::new);
+                0, userCoupon.getUsername()).orElseThrow(DataNotFoundException::new);
         coupon.setCouponStatus(1);
         userCouponDao.save(coupon);
         return ResponseData.builder().code(ResponseCode.SUCCESS).build();
@@ -92,7 +96,7 @@ public class UserCouponService {
         List<UserCoupon> coupons = new ArrayList<>();
         if (list.isEmpty()) return;
         list.forEach(e -> {
-            UserCoupon coupon = userCouponDao.findByCouponNoAndCouponStatusAndUsername(e.getCouponNo(), 0,e.getUsername()).orElseThrow(DataNotFoundException::new);
+            UserCoupon coupon = userCouponDao.findByCouponNoAndCouponStatusAndUsername(e.getCouponNo(), 0, e.getUsername()).orElseThrow(DataNotFoundException::new);
             coupon.setCouponNumber(coupon.getCouponNumber() + e.getCouponNumber());
             coupons.add(coupon);
         });

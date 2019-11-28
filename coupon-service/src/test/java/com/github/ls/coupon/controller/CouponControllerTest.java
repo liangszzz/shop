@@ -3,7 +3,6 @@ package com.github.ls.coupon.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
-import com.github.ls.coupon.CouponServiceApplication;
 import com.github.ls.coupon.entity.Coupon;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
@@ -17,7 +16,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -36,6 +34,12 @@ public class CouponControllerTest {
 
     private static String no;
 
+    @BeforeAll
+    public static void beforeAll() {
+        no = "cacf63a2-cb1c-47e6-bbc7-9819e4c32ec3";
+        mapper = new ObjectMapper();
+    }
+
     @BeforeEach
     public void before() {
         Coupon tmp = new Coupon();
@@ -43,7 +47,6 @@ public class CouponControllerTest {
         tmp.setCouponName("coupon_001_name");
         tmp.setCouponAmount(new BigDecimal("1.0"));
         coupon = tmp;
-        log.error("exec before");
     }
 
     @Order(1)
@@ -84,10 +87,4 @@ public class CouponControllerTest {
         Assertions.assertEquals(responseData.getCode(), ResponseCode.SUCCESS);
     }
 
-    @BeforeAll
-    public static void beforeAll() {
-        no = UUID.randomUUID().toString();
-        mapper = new ObjectMapper();
-        log.error("exec before all");
-    }
 }

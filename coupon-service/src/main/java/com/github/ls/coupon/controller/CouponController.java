@@ -5,7 +5,6 @@ import com.github.ls.coupon.entity.Coupon;
 import com.github.ls.coupon.service.CouponService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

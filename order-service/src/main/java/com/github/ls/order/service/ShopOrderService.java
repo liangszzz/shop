@@ -8,7 +8,7 @@ import com.github.ls.coupon.entity.UserCoupon;
 import com.github.ls.coupon.feign.UserCouponFeignDao;
 import com.github.ls.coupon.vo.ConsumerCoupon;
 import com.github.ls.goods.entity.Goods;
-import com.github.ls.goods.feign.GoodsDao;
+import com.github.ls.goods.feign.GoodsFeignDao;
 import com.github.ls.goods.vo.ConsumerGoods;
 import com.github.ls.order.dao.shop.OrderDao;
 import com.github.ls.order.entity.shop.Order;
@@ -28,14 +28,14 @@ public class ShopOrderService {
 
     private final OrderDao orderDao;
     private final UserCouponFeignDao userCouponFeignDao;
-    private final GoodsDao goodsDao;
+    private final GoodsFeignDao goodsFeignDao;
 
     private final RocketMQTemplate rocketMQTemplate;
 
-    public ShopOrderService(OrderDao orderDao, UserCouponFeignDao userCouponFeignDao, GoodsDao goodsDao, RocketMQTemplate rocketMQTemplate) {
+    public ShopOrderService(OrderDao orderDao, UserCouponFeignDao userCouponFeignDao, GoodsFeignDao goodsFeignDao, RocketMQTemplate rocketMQTemplate) {
         this.orderDao = orderDao;
         this.userCouponFeignDao = userCouponFeignDao;
-        this.goodsDao = goodsDao;
+        this.goodsFeignDao = goodsFeignDao;
         this.rocketMQTemplate = rocketMQTemplate;
     }
 
@@ -57,7 +57,7 @@ public class ShopOrderService {
         consumerGoods.setOrderNo(orderNo);
         consumerGoods.setGoods(goods);
 
-        ResponseData data2 = goodsDao.consumer(consumerGoods);
+        ResponseData data2 = goodsFeignDao.consumer(consumerGoods);
         if (ResponseCode.SUCCESS != data2.getCode()) throw BizException.builder().biz_code(500).msg("商品消费失败!").build();
 
         orderDao.save(order);
@@ -69,7 +69,7 @@ public class ShopOrderService {
         } catch (Exception e) {
             log.info(e.getLocalizedMessage());
             userCouponFeignDao.rollback(orderNo);
-            goodsDao.rollback(orderNo);
+            goodsFeignDao.rollback(orderNo);
         }
 
     }

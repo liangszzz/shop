@@ -38,5 +38,11 @@ public class OrderController {
         return ResponseData.builder().code(ResponseCode.SUCCESS).msg(orderNo).build();
     }
 
+    @PostMapping("rollbackOrder")
+    public ResponseData rollbackOrder(@RequestParam("order_no") String orderNO) {
+        shopOrderService.rollbackOrder(orderNO);
+        return ResponseData.builder().code(ResponseCode.SUCCESS).build();
+    }
+
 
 }

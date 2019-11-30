@@ -39,7 +39,6 @@ public class Goods implements Serializable {
     private String goodsNo;
 
     @JsonProperty("goods_name")
-    @NotBlank
     @Column(name = "goods_name", length = 50)
     private String goodsName;
 

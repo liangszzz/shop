@@ -3,7 +3,6 @@ package com.github.ls.order.service;
 import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.common.exceptions.BizException;
-import com.github.ls.common.mq.OrderRollBackInput;
 import com.github.ls.common.mq.OrderRollBackOutput;
 import com.github.ls.coupon.entity.UserCoupon;
 import com.github.ls.coupon.feign.UserCouponFeignDao;
@@ -14,10 +13,6 @@ import com.github.ls.goods.vo.ConsumerGoods;
 import com.github.ls.order.dao.shop.OrderDao;
 import com.github.ls.order.entity.shop.Order;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
-import org.apache.rocketmq.spring.support.RocketMQHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -38,7 +33,7 @@ public class ShopOrderService {
 
     private final OrderRollBackOutput orderRollBackOutput;
 
-    public ShopOrderService(OrderDao orderDao, UserCouponFeignDao userCouponFeignDao, GoodsFeignDao goodsFeignDao, RocketMQTemplate rocketMQTemplate, OrderRollBackOutput orderRollBackOutput) {
+    public ShopOrderService(OrderDao orderDao, UserCouponFeignDao userCouponFeignDao, GoodsFeignDao goodsFeignDao, OrderRollBackOutput orderRollBackOutput) {
         this.orderDao = orderDao;
         this.userCouponFeignDao = userCouponFeignDao;
         this.goodsFeignDao = goodsFeignDao;
@@ -71,7 +66,7 @@ public class ShopOrderService {
     }
 
     public void rollbackOrder(String orderNo) {
-        boolean send = orderRollBackOutput.output().send(MessageBuilder.withPayload(orderNo).setHeader("broadcasting",true).build(),200);
+        boolean send = orderRollBackOutput.output().send(MessageBuilder.withPayload(orderNo).build(), 200);
         if (!send) {
             log.info("orderNo:" + orderNo + "send fail");
             userCouponFeignDao.rollback(orderNo);

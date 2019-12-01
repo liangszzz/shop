@@ -8,9 +8,6 @@ import com.github.ls.order.entity.base.*;
 import com.github.ls.order.entity.vo.AddAttachmentVO;
 import com.github.ls.order.entity.vo.ApproveVO;
 import com.github.ls.order.entity.vo.SubmitOrderVO;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
-import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -34,18 +31,15 @@ public class OrderService {
 
     private final ClUserInfoDao clUserInfoDao;
 
-    private RocketMQTemplate rocketMQTemplate;
-
     public OrderService(ClAttachmentInfoDao clAttachmentInfoDao, ClBaseInfoDao clBaseInfoDao, ClCarInfoDao clCarInfoDao,
                         ClContractInfoDao clContractInfoDao, ClRiskControlInfoDao clRiskControlInfoDao,
-                        ClUserInfoDao clUserInfoDao, RocketMQTemplate rocketMQTemplate) {
+                        ClUserInfoDao clUserInfoDao) {
         this.clAttachmentInfoDao = clAttachmentInfoDao;
         this.clBaseInfoDao = clBaseInfoDao;
         this.clCarInfoDao = clCarInfoDao;
         this.clContractInfoDao = clContractInfoDao;
         this.clRiskControlInfoDao = clRiskControlInfoDao;
         this.clUserInfoDao = clUserInfoDao;
-        this.rocketMQTemplate = rocketMQTemplate;
     }
 
     @Transactional(rollbackOn = RuntimeException.class)

@@ -20,7 +20,8 @@ public class OrderRollBackService {
     }
 
     @StreamListener(value = OrderRollBackInput.ORDER_INPUT)
-    public void rollBackOrder(String order_no) {
-        goodsService.rollBackOrder(order_no);
+    public void rollBackOrder(String orderNo) {
+        log.info("goods rollback " + orderNo);
+        goodsService.rollBackOrder(orderNo);
     }
 }

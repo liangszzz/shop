@@ -22,7 +22,7 @@ public class OrderRollBackService {
 
     @StreamListener(value = OrderRollBackInput.ORDER_INPUT)
     public void rollBackOrder(String orderNo) {
-        log.info("rollback:" + orderNo);
+        log.info("coupon rollback:" + orderNo);
         userCouponService.rollbackOrder(orderNo);
     }
 }

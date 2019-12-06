@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
@@ -63,12 +65,11 @@ public class ShopOrderService {
         ResponseData data1 = userCouponFeignDao.consumer(consumerCoupon);
         if (ResponseCode.SUCCESS != data1.getCode()) throw BizException.builder().biz_code(500).msg("优惠券消费失败!").build();
 
-
         orderDao.save(order);
     }
 
     public void rollbackOrder(String orderNo) {
-        boolean send = orderRollBackOutput.output().send(MessageBuilder.withPayload(orderNo).setHeader(MessageConst.PROPERTY_DELAY_TIME_LEVEL, 5).build(), 200);
+        boolean send = orderRollBackOutput.output().send(MessageBuilder.withPayload(orderNo).setHeader(MessageConst.PROPERTY_DELAY_TIME_LEVEL, 3).build(), 200);
         if (!send) {
             log.info("orderNo:" + orderNo + "send fail");
             userCouponFeignDao.rollback(orderNo);

@@ -57,6 +57,7 @@ public class GoodsService {
     }
 
     public ResponseData consumer(List<Goods> goods, String orderNo) {
+        log.info(orderNo);
         List<Goods> goodsConsumers = new ArrayList<>(goods.size());
         List<OrderGoods> orderGoodsConsumers = new ArrayList<>(goods.size());
 

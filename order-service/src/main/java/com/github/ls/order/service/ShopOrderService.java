@@ -13,6 +13,8 @@ import com.github.ls.goods.vo.ConsumerGoods;
 import com.github.ls.order.dao.shop.OrderDao;
 import com.github.ls.order.entity.shop.Order;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.common.message.MessageConst;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -66,7 +68,7 @@ public class ShopOrderService {
     }
 
     public void rollbackOrder(String orderNo) {
-        boolean send = orderRollBackOutput.output().send(MessageBuilder.withPayload(orderNo).build(), 200);
+        boolean send = orderRollBackOutput.output().send(MessageBuilder.withPayload(orderNo).setHeader(MessageConst.PROPERTY_DELAY_TIME_LEVEL, 5).build(), 200);
         if (!send) {
             log.info("orderNo:" + orderNo + "send fail");
             userCouponFeignDao.rollback(orderNo);

@@ -10,7 +10,7 @@ import com.github.ls.coupon.vo.ConsumerCoupon;
 import com.github.ls.goods.entity.Goods;
 import com.github.ls.goods.feign.GoodsFeignDao;
 import com.github.ls.goods.vo.ConsumerGoods;
-import com.github.ls.order.dao.shop.OrderDao;
+import com.github.ls.order.dao.OrderDao;
 import com.github.ls.order.entity.shop.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageConst;

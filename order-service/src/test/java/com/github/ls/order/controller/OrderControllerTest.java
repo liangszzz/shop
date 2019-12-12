@@ -5,7 +5,7 @@ import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
 import com.github.ls.coupon.entity.UserCoupon;
 import com.github.ls.goods.entity.Goods;
-import com.github.ls.order.dao.vo.OrderSubmitVO;
+import com.github.ls.order.vo.OrderSubmitVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("订单测试")
 @Slf4j

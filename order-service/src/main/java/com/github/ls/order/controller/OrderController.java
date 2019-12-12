@@ -2,7 +2,7 @@ package com.github.ls.order.controller;
 
 import com.github.ls.common.entity.ResponseCode;
 import com.github.ls.common.entity.ResponseData;
-import com.github.ls.order.dao.vo.OrderSubmitVO;
+import com.github.ls.order.vo.OrderSubmitVO;
 import com.github.ls.order.service.ShopOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.context.config.annotation.RefreshScope;

@@ -11,13 +11,10 @@ import com.github.ls.goods.entity.Goods;
 import com.github.ls.goods.feign.GoodsFeignDao;
 import com.github.ls.goods.vo.ConsumerGoods;
 import com.github.ls.order.dao.OrderDao;
-import com.github.ls.order.entity.shop.Order;
+import com.github.ls.order.entity.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageConst;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
